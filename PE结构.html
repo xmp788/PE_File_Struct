@@ -1,0 +1,1569 @@
+<!doctype html>
+<html>
+	<head>
+		<!--以下四个标签必不可少,-->
+		<!--声明当前页面的编码集 charset=gbk或gb2312(中文编码)utf-8(国际编码)-->
+		<meta http-equiv="Content-type" content="text/html;charset=utf-8">
+		<!--以下是当前页面的三要素-->
+		<!--标题-->
+		<title>PE结构详解 - maoping</title>
+		<!--meta标签本身无意义，取决于keywords,关键词与关键词用英文状态下的逗号隔开-->
+		<link rel="icon" href="favicon.ico" type="x-icon">
+		<!--标题前图标-->
+		<meta name="keywords" content="关键词,关键词">
+		<!--简洁和描述信息-->
+		<meta name="description" content="">
+		<!--css,js样式-->
+		<link rel="stylesheet" type="text/css" href="css/styles.css" />
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="js/wds.js"></script>
+	</head>
+	<body>
+		<div class="title">
+			<h2>PE结构详解___讲师：小甲鱼</h2>
+		</div>
+		<div class="d">
+			<div class="d-nav">
+				<ul>
+					<li>
+						<a class="nav-a" id="num1" href="javascript:void(0)">01.&nbsp;<span style="color:red">IMAGE_DOS_HEADER</span>结构定义即各个属性的作用</a>
+					</li>
+					<li>
+						<a class="nav-a" id="num2" href="javascript:void(0)">02.&nbsp;<span style="color:red">IMAGE_NT_HEADERS</span>结构定义即各个属性的作用</a>
+					</li>
+					<li>
+						<a class="nav-a" id="num3" href="javascript:void(0)">03.&nbsp;<span style="color:red">IMAGE_OPTIONAL_HEADER32</span>结构定义即各个属性的作用.</a>
+					</li>
+					<li>
+						<a class="nav-a" id="num4" href="javascript:void(0)">04.&nbsp;PE详解之区块表[节]和区块[节](上)</a>
+					</li>
+					<li>
+						<a class="nav-a" id="num5" href="javascript:void(0)">05.&nbsp;PE详解之区块表[节]和区块[节](下)</a>
+					</li>
+					<li>
+						<a class="nav-a" id="num6" href="javascript:void(0)">06.&nbsp;PE详解之区块描述、对齐值以及RVA详解</a>
+					</li>
+					<li>
+						<a class="nav-a" id="num7" href="javascript:void(0)">07.&nbsp;PE详解之<span style="color:red">导入表</span>详解(上)</a>
+					</li>
+					<li>
+						<a class="nav-a" id="num8" href="javascript:void(0)">08.&nbsp;PE详解之<span style="color:red">导入表</span>详解(下)</a>
+					</li>
+					<li>
+						<a class="nav-a" id="num9" href="javascript:void(0)">09.&nbsp;PE详解之<span style="color:red">导出表</span>详解</a>
+					</li>
+					<li>
+						<a class="nav-a" id="num10" href="javascript:void(0)">10.&nbsp;PE详解之<span style="color:red">基址重定位</span>详解</a>
+					</li>
+					<li>
+						<a class="nav-a" id="num11" href="javascript:void(0)">11.&nbsp;PE详解之资源</a>
+					</li>
+				</ul>
+			</div>
+			<div class="d-con">
+				<div class="con" id="c_num1">
+					<div class="c-top">
+						<input class="close" id="close" type="button" value="X" />
+					</div>
+					<div class="c_body" style="color:blue;font-size:18px">
+						IMAGE_DOS_HEADER STRUCT{
+						<table border="0" class="tb">
+							<tbody>
+								<tr>
+									<td class="td_a">+0h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_magic</td>
+									<td class="td_d">Magic DOS signature MZ(4Dh 5Ah) DOS可执行文件标记</td>
+								</tr>
+								<tr>
+									<td class="td_a">+2h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_cblp</td>
+									<td class="td_d">Bytes on last page of file</td>
+								</tr>
+								<tr>
+									<td class="td_a">+4h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_cp</td>
+									<td class="td_d">Pages in file</td>
+								</tr>
+								<tr>
+									<td class="td_a">+6h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_crlc</td>
+									<td class="td_d">Relocat ions</td>
+								</tr>
+								<tr>
+									<td class="td_a">+8h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_cparhdr</td>
+									<td class="td_d">Size of header in paragraphs</td>
+								</tr>
+								<tr>
+									<td class="td_a">+0ah</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_minalloc</td>
+									<td class="td_d">Minimun extra paragraphs needs</td>
+								</tr>
+								<tr>
+									<td class="td_a">+0ch</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_maxalloc</td>
+									<td class="td_d">Maximun extra paragraphs needs</td>
+								</tr>
+								<tr>
+									<td class="td_a">+0eh</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_ss</td>
+									<td class="td_d">intial(relative)SS value DOS代码的初始化堆栈SS </td>
+								</tr>
+								<tr>
+									<td class="td_a">+10h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_sp</td>
+									<td class="td_d">intial SP value DOS代码的初始化堆栈SP </td>
+								</tr>
+								<tr>
+									<td class="td_a">+12h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_csum</td>
+									<td class="td_d">Checksum </td>
+								</tr>
+								<tr>
+									<td class="td_a">+14h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_ip</td>
+									<td class="td_d">intial IP value DOS代码的初始化指令入口[指针IP] </td>
+								</tr>
+								<tr>
+									<td class="td_a">+16h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_CS</td>
+									<td class="td_d">intial(relative)CS value DOS代码的初始堆栈入口</td>
+								</tr>
+								<tr>
+									<td class="td_a">+18h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_lfarlc</td>
+									<td class="td_d">File Address of relocation table</td>
+								</tr>
+								<tr>
+									<td class="td_a">+1ah</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_ovno</td>
+									<td class="td_d">Overlay number</td>
+								</tr>
+								<tr>
+									<td class="td_a">+1ch</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_res[4]</td>
+									<td class="td_d">Reserved words</td>
+								</tr>
+								<tr>
+									<td class="td_a">+24h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_oemid</td>
+									<td class="td_d">OEM identifier(for e_oeminfo)</td>
+								</tr>
+								<tr>
+									<td class="td_a">+26h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_oeminfo</td>
+									<td class="td_d">OEM information;e_oemid specific</td>
+								</tr>
+								<tr>
+									<td class="td_a">+29h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">e_res2[10]</td>
+									<td class="td_d">Reserved words</td>
+								</tr>
+								<tr>
+									<td class="td_a">+3ch</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">e_lfanew</td>
+									<td class="td_d">Offset to start of PE header 指向PE文件头</td>
+								</tr>
+							</tbody>
+						</table>
+						} IMAGE_DOS_HEADER ENDS
+					</div>
+				</div>
+				<div class="con" id="c_num2">
+					<div class="c-top">
+						<input class="close" id="close" type="button" value="X" />
+					</div>
+					<b>PE Header 是PE相关结构NT映像头（IMAGE_NT_HEADER）的简称，里边包含着许多PE装载器用到的重要字段。下边小甲鱼将为大家详细讲解哈~</b>
+					<span>首先是IMAGE_NT_HEADERS 结构的定义：（啥？结构不会，先看看小甲鱼童鞋的《零基础入门学习C语言》关于结构方面的章节吧~）</span>
+					<div class="c_body" style="color:blue;font-size:18px">
+						IMAGE_NT_HEADERS STRUCT{
+						<table border="0" class="tb">
+							<tbody>
+								<tr>
+									<td class="td_a">+0h</td>
+									<td class="td_c">Signature</td>
+									<td class="td_d">文件签名</td>
+								</tr>
+								<tr>
+									<td class="td_a">+4h</td>
+									<td class="td_c">IMAGE_FILE_HEADER</td>
+									<td class="td_d">FileHeader</td>
+								</tr>
+								<tr>
+									<td class="td_a">+18h</td>
+									<td class="td_c">IMAGE_OPTIONAL_HEADER32</td>
+									<td class="td_d">OptionalHeader</td>
+								</tr>
+							</tbody>
+						</table>
+						}IMAGE_NT_HEADERS ENDS
+					</div>
+					<div style="padding:0 15px">
+						<span class="span_title">Signature 字段:</span>
+						<span>在一个有效的 PE 文件里，Signature 字段被设置为00004550h, ASCII 码字符是“PE00”。标志这 PE 文件头的开始。
+							“PE00”字符串是 PE 文件头的开始，DOS 头部的 e_lfanew 字段正是指向这里。</span>
+						<span>如下图所示:</span>
+						<img src="images/NTHeads.gif" alt="NT_Heads"/>
+						<span class="span_title">IMAGE_FILE_HEADER 结构</span>
+						<div class="c_body" style="color:blue;font-size:18px">
+							typedef struct _IMAGE_FILE_HEADER {
+							<table border="0" class="tb">
+								<tbody>
+									<tr>
+										<td class="td_a">+04h</td>
+										<td class="td_b">WORD</td>
+										<td class="td_c">Machine</td>
+										<td class="td_d">运行平台</td>
+									</tr>
+									<tr>
+										<td class="td_a">+06h</td>
+										<td class="td_b">WORD</td>
+										<td class="td_c">NumberOfSections</td>
+										<td class="td_d">文件的区块数目</td>
+									</tr>
+									<tr>
+										<td class="td_a">+08h</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">TimeDateStamp</td>
+										<td class="td_d">文件创建日期和时间</td>
+									</tr>
+									<tr>
+										<td class="td_a">+0Ch</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">PointerToSymbolTable</td>
+										<td class="td_d">指向符号表(主要用于调试)</td>
+									</tr>
+									<tr>
+										<td class="td_a">+10h</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">NumberOfSymbols</td>
+										<td class="td_d">符号表中符号个数(同上)</td>
+									</tr>
+									<tr>
+										<td class="td_a">+14h</td>
+										<td class="td_b">WORD</td>
+										<td class="td_c">SizeOfOptionalHeader</td>
+										<td class="td_d">IMAGE_OPTIONAL_HEADER32 结构大小</td>
+									</tr>
+									<tr>
+										<td class="td_a">+16h</td>
+										<td class="td_b">WORD</td>
+										<td class="td_c">Characteristics</td>
+										<td class="td_d">文件属性</td>
+									</tr>
+								</tbody>
+							</table>
+							} IMAGE_FILE_HEADER, *PIMAGE_FILE_HEADER;
+						</div>
+						<span>该结构如下图所示：</span>
+						<img src="images/NTHeads2.gif" alt="NT_Heads"/>
+						<span>下面，小甲鱼为大家详细解释各个成员的含义和用法：</span>
+						<div>
+							<p>(1)Machine:可执行文件的目标CPU类型</p>
+							<table border="1" class="tb">
+								<tbody>
+									<tr style="background-color:gray;font-size:18px">
+										<td class="td_c">value</td>
+										<td class="td_d">Meaning</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_MACHINE_I386<p>0x014c</p>
+										</td>
+										<td class="td_d">x86</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_MACHINE_IA64<p>0x0200</p>
+										</td>
+										<td class="td_d">Intel Itanium</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_MACHINE_AMD64<p>0x8664</p>
+										</td>
+										<td class="td_d">x64</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>(2)NumberOfSection: 区块的数目。(注：区块表是紧跟在 IMAGE_NT_HEADERS 后边的)</p>
+							<p>(3)TimeDataStamp: 表明文件是何时被创建的。</p>
+							<p>这个值是自1970年1月1日以来用格林威治时间(GMT)计算的秒数，这个值是比文件系统(FILESYSTEM)的日期时间更加精确的指示器。如何将这个值翻译请看：http://home.fishc.com/space.php?uid=9&do=blog&id=555</p>
+							<p>提示：VC的话可以用_ctime 函数或者 gmtime 函数。</p>
+							<p>(4)PointerToSymbolTable: COFF 符号表的文件偏移位置，现在基本没用了。</p>
+							<p>(5)NumberOfSymbols: 如果有COFF 符号表，它代表其中的符号数目，COFF符号是一个大小固定的结构，如果想找到COFF 符号表的结束位置，则需要这个变量。</p>
+							<p>(6)SizeOfOptionalHeader: 紧跟着IMAGE_FILE_HEADER 后边的数据结构(IMAGE_OPTIONAL_HEADER)的大小。(对于32位PE文件，这个值通常是00E0h；对于64位PE32+文件，这个值是00F0h )。</p>
+							<p>(7)Characteristics: 文件属性，有选择的通过几个值可以运算得到。( 这些标志的有效值是定义于 winnt.h 内的 IMAGE_FILE_** 的值，具体含义见下表。普通的EXE文件这个字段的值一般是 0100h，DLL文件这个字段的值一般是 210Eh。)小甲鱼温馨提示：多种属性可以通过 “或运算” 使得同时拥有！</p>
+							<p>The characteristics of the image. This member can be one or more of the following values.</p>
+							<table border="1" class="tb">
+								<tbody>
+									<tr style="background-color:gray;font-size:18px;text-align:center">
+										<td class="td_c">value</td>
+										<td class="td_d">Meaning</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_RELOCS_STRIPPED<p>0x0001</p>
+										</td>
+										<td class="td_d">Relocation information was stripped from the file.The file must be loaded at its preferred base address. If the base address is not available, the loader reports an error.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_EXECUTABLE_IMAGE<p>0x0002</p>
+										</td>
+										<td class="td_d">The file is executable (there are no unresolved external references).</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_LINE_NUMS_STRIPPED<p>0x0004</p>
+										</td>
+										<td class="td_d">COFF line numbers were stripped from the file.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_LOCAL_SYMS_STRIPPED<p>0x0008</p>
+										</td>
+										<td class="td_d">COFF symbol table entries were stripped from file.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_AGGRESIVE_WS_TRIM<p>0x0010</p>
+										</td>
+										<td class="td_d">Aggressively trim the working set. This value is obsolete as of Windows 2000.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_LARGE_ADDRESS_AWARE<p>0x0020</p>
+										</td>
+										<td class="td_d">The application can handle addresses larger than 2 GB.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_BYTES_REVERSED_LO<p>0x0080</p>
+										</td>
+										<td class="td_d">The bytes of the word are reversed. This flag is obsolete.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_32BIT_MACHINE<p>0x0100</p>
+										</td>
+										<td class="td_d">The computer supports 32-bit words.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_DEBUG_STRIPPED<p>0x0200</p>
+										</td>
+										<td class="td_d">Debugging information was removed and stored separately in another file.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP<p>0x0400</p>
+										</td>
+										<td class="td_d">If the image is on removable media, copy it to and run it from the swap file.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_NET_RUN_FROM_SWAP<p>0x0800</p>
+										</td>
+										<td class="td_d">If the image is on the network, copy it to and run it from the swap file.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_SYSTEM<p>0x1000</p>
+										</td>
+										<td class="td_d">The image is a system file.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_DLL<p>0x2000</p>
+										</td>
+										<td class="td_d">The image is a DLL file. While it is an executable file, it cannot be run directly.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_UP_SYSTEM_ONLY<p>0x4000</p>
+										</td>
+										<td class="td_d">The file should be run only on a uniprocessor computer.</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_FILE_BYTES_REVERSED_HI<p>0x8000</p>
+										</td>
+										<td class="td_d">The bytes of the word are reversed. This flag is obsolete.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="con" id="c_num3">
+					<div class="c-top">
+						<input class="close" id="close" type="button" value="X" />
+					</div>
+					<div class="c_body" style="color:blue;font-size:18px">
+						<p style="color:#222">接着我们来谈谈 IMAGE_OPTIONAL_HEADER 结构，正如名字的意思，这是一个可选映像头，是一个可选的结构，但是呢，实际上上节课我们讲解的 IMAGE_FILE_HEADER 结构远远不足以来定义 PE 文件的属性。因此，这些属性在 IMAGE_OPTIONAL_HEADER 结构中进行定义。因此这两个结构联合起来，才是一个完整的 “PE文件结构” 。</p>
+						<p style="color:#222">那么我们接着就应该顺理成章地来谈谈 IMAGE_OPTIONAL_HEADER32 结构的定义：（啥？结构不会，先看看小甲鱼童鞋的<span style="color:blue">《零基础入门学习C语言》</span>关于结构方面的章节吧~）</p>
+						typedef struct _IMAGE_OPTIONAL_HEADER{
+						<table border="0" class="tb">
+							<tbody>
+								<th colspan="4" style="color:#666">//Standard fields.</th>
+								<tr>
+									<td class="td_a">+18h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">Magic</td>
+									<td class="td_d">标志字, ROM 映像（0107h）,普通可执行文件（010Bh）</td>
+								</tr>
+								<tr>
+									<td class="td_a">+1Ah</td>
+									<td class="td_b">BYTE</td>
+									<td class="td_c">MajorLinkerVersion</td>
+									<td class="td_d">链接程序的主版本号</td>
+								</tr>
+								<tr>
+									<td class="td_a">+1Bh</td>
+									<td class="td_b">BYTE</td>
+									<td class="td_c">MinorLinkerVersion</td>
+									<td class="td_d">链接程序的次版本号</td>
+								</tr>
+								<tr>
+									<td class="td_a">+1Ch</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">SizeOfCode</td>
+									<td class="td_d">所有含代码的节的总大小</td>
+								</tr>
+								<tr>
+									<td class="td_a">+20h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">SizeOfInitializedData</td>
+									<td class="td_d">所有含已初始化数据的节的总大小</td>
+								</tr>
+								<tr>
+									<td class="td_a">+24h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">SizeOfUninitializedData</td>
+									<td class="td_d">所有含未初始化数据的节的大小</td>
+								</tr>
+								<tr class="tr">
+									<td class="td_a">+28h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">AddressOfEntryPoint</td>
+									<td class="td_d">程序执行入口RVA</td>
+								</tr>
+								<tr>
+									<td class="td_a">+2Ch</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">BaseOfCode</td>
+									<td class="td_d">代码的区块的起始RVA</td>
+								</tr>
+								<tr>
+									<td class="td_a">+30h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">BaseOfData</td>
+									<td class="td_d">数据的区块的起始RVA</td>
+								</tr>
+								<th colspan="4" style="color:#666">// NT additional fields. 以下是属于NT结构增加的领域.</th>
+								<tr class="tr">
+									<td class="td_a">+34h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">ImageBase</td>
+									<td class="td_d">程序的首选装载地址</td>
+								</tr>
+								<tr class="tr">
+									<td class="td_a">+38h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">SectionAlignment</td>
+									<td class="td_d">内存中的区块的对齐大小</td>
+								</tr>
+								<tr class="tr">
+									<td class="td_a">+3Ch</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">FileAlignment</td>
+									<td class="td_d">文件中的区块的对齐大小</td>
+								</tr>
+								<tr>
+									<td class="td_a">+40h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">MajorOperatingSystemVersion</td>
+									<td class="td_d">要求操作系统最低版本号的主版本号</td>
+								</tr>
+								<tr>
+									<td class="td_a">+42h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">MinorOperatingSystemVersion</td>
+									<td class="td_d">要求操作系统最低版本号的副版本号</td>
+								</tr>
+								<tr>
+									<td class="td_a">+44h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">MajorImageVersion</td>
+									<td class="td_d">可运行于操作系统的主版本号</td>
+								</tr>
+								<tr>
+									<td class="td_a">+46h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">MinorImageVersion</td>
+									<td class="td_d">可运行于操作系统的次版本号</td>
+								</tr>
+								<tr>
+									<td class="td_a">+48h</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">MajorSubsystemVersion</td>
+									<td class="td_d">要求最低子系统版本的主版本号</td>
+								</tr>
+								<tr>
+									<td class="td_a">+4Ah</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">MinorSubsystemVersion</td>
+									<td class="td_d">要求最低子系统版本的次版本号</td>
+								</tr>
+								<tr>
+									<td class="td_a">+4Ch</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">Win32VersionValue</td>
+									<td class="td_d">莫须有字段，不被病毒利用的话一般为0</td>
+								</tr>
+								<tr>
+									<td class="td_a">+50h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">SizeOfImage</td>
+									<td class="td_d">映像装入内存后的总尺寸</td>
+								</tr>
+								<tr>
+									<td class="td_a">+54h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">SizeOfHeaders</td>
+									<td class="td_d">所有头 + 区块表的尺寸大小</td>
+								</tr>
+								<tr>
+									<td class="td_a">+58h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">CheckSum</td>
+									<td class="td_d">映像的校检和</td>
+								</tr>
+								<tr>
+									<td class="td_a">+5Ch</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">Subsystem</td>
+									<td class="td_d">可执行文件期望的子系统</td>
+								</tr>
+								<tr>
+									<td class="td_a">+5Eh</td>
+									<td class="td_b">WORD</td>
+									<td class="td_c">DllCharacteristics</td>
+									<td class="td_d">DllMain()函数何时被调用，默认为 0</td>
+								</tr>
+								<tr>
+									<td class="td_a">+60h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">SizeOfStackReserve</td>
+									<td class="td_d"> 初始化时的栈大小</td>
+								</tr>
+								<tr>
+									<td class="td_a">+64h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">SizeOfStackCommit</td>
+									<td class="td_d">初始化时实际提交的栈大小</td>
+								</tr>
+								<tr>
+									<td class="td_a">+68h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">SizeOfHeapReserve</td>
+									<td class="td_d">初始化时保留的堆大小</td>
+								</tr>
+								<tr>
+									<td class="td_a">+6Ch</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">SizeOfHeapCommit</td>
+									<td class="td_d">初始化时实际提交的堆大小</td>
+								</tr>
+								<tr>
+									<td class="td_a">+70h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">LoaderFlags</td>
+									<td class="td_d">与调试有关，默认为 0</td>
+								</tr>
+								<tr>
+									<td class="td_a">+74h</td>
+									<td class="td_b">DWORD</td>
+									<td class="td_c">NumberOfRvaAndSizes</td>
+									<td class="td_d">下边数据目录的项数，这个字段自Windows NT 发布以来		//一直是16</td>
+								</tr>
+								<tr class="tr">
+									<td class="td_a">+78h</td>										
+									<td class="td_c" colspan="2">IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES]</td>
+									<td class="td_d">以下为    数据目录表</td>
+								</tr>
+							</tbody>
+						</table>
+						}IMAGE_OPTIONAL_HEADER32, *PIMAGE_OPTIONAL_HEADER32
+					</div>
+					<div style="padding:0 15px">
+						<span><ul>
+							<ul><li>事实上，这个结构中的大部分字段都不重要，大家可以从注释中理解它们的含义，小甲鱼将比较重要的字段在下边跟大家详细讲解。另外，这玩意千万不要去背啊，我们要把绝大多数的时间拿来改变，而不是记住。不用做笔记，把这篇文章转载到您的博客就行（最好注明：小甲鱼是帅哥）吼 吼 ^_^
+							</li></ul>
+							<ul><b>AddressOfEntryPoint字段</b>
+								<li>指出文件被执行时的入口地址，这是一个RVA地址（RVA的含义在下一节中详细介绍）。如果在一个可执行文件上附加了一段代码并想让这段代码首先被执行，那么只需要将这个入口地址指向附加的代码就可以了。</li>
+							</ul>
+							<ul><b>ImageBase字段</b>
+								<li>指出文件的优先装入地址。也就是说当文件被执行时，如果可能的话，Windows优先将文件装入到由ImageBase字段指定的地址中，只有指定的地址已经被**模块使用时，文件才被装入到**地址中。链接器产生可执行文件的时候对应这个地址来生成机器码，所以当文件被装入这个地址时不需要进行重定位操作，装入的速度最快，如果文件被装载到**地址的话，将不得不进行重定位操作，这样就要慢一点。</li>
+								<li>对于EXE文件来说，由于每个文件总是使用独立的虚拟地址空间，优先装入地址不可能被**模块占据，所以EXE总是能够按照这个地址装入，这也意味着EXE文件不再需要重定位信息。对于DLL文件来说，由于多个DLL文件全部使用宿主EXE文件的地址空间，不能保证优先装入地址没有被**的DLL使用，所以DLL文件中必须包含重定位信息以防万一。因此，在前面介绍的 IMAGE_FILE_HEADER 结构的 Characteristics 字段中，DLL 文件对应的 IMAGE_FILE_RELOCS_STRIPPED 位总是为0，而EXE文件的这个标志位总是为1。</li>
+								<li>在链接的时候，可以通过对link.exe指定/base:address选项来自定义优先装入地址，如果不指定这个选项的话，一般EXE文件的默认优先装入地址被定为00400000h，而DLL文件的默认优先装入地址被定为10000000h。</li>
+							</ul>
+							<ul><b>SectionAlignment 字段和 FileAlignment字段</b>
+								<li>SectionAlignment字段指定了节被装入内存后的对齐单位。也就是说，每个节被装入的地址必定是本字段指定数值的整数倍。而FileAlignment字段指定了节存储在磁盘文件中时的对齐单位。</li>
+							</ul>
+							<ul><b>Subsystem字段</b>
+								<li>指定使用界面的子系统，它的取值如表17.3所示。这个字段决定了系统如何为程序建立初始的界面，链接时的/subsystem:**选项指定的就是这个字段的值，在前面章节的编程中我们早已知道：如果将子系统指定为Windows CUI，那么系统会自动为程序建立一个控制台窗口，而指定为Windows GUI的话，窗口必须由程序自己建立。</li>
+								<li>界面子系统的取值和含义</li>
+								<table border="1" class="tb">
+									<tbody>
+										<tr style="background-color:gray;font-size:18px;text-align:center">
+											<td class="td_a">取值</td>
+											<td class="td_c">Windows.inc中的预定义值</td>
+											<td class="td_d">含   义</td>
+										</tr>
+										<tr>
+											<td class="td_a">0</td>
+											<td class="td_c">IMAGE_SUBSYSTEM_UNKNOWN</td>
+											<td class="td_d">未知的子系统</td>
+										</tr>
+										<tr>
+											<td class="td_a">1</td>
+											<td class="td_c">IMAGE_SUBSYSTEM_NATIVE</td>
+											<td class="td_d">不需要子系统(如驱动程序)</td>
+										</tr>
+										<tr>
+											<td class="td_a">2</td>
+											<td class="td_c">IMAGE_SUBSYSTEM_WINDOWS_GUI</td>
+											<td class="td_d">Windows图形界面</td>
+										</tr>
+										<tr>
+											<td class="td_a">3</td>
+											<td class="td_c">IMAGE_SUBSYSTEM_WINDOWS_CUI</td>
+											<td class="td_d">Windows控制台界面</td>
+										</tr>
+										<tr>
+											<td class="td_a">5</td>
+											<td class="td_c">IMAGE_SUBSYSTEM_OS2_CUI</td>
+											<td class="td_d">OS2控制台界面</td>
+										</tr>
+										<tr>
+											<td class="td_a">7</td>
+											<td class="td_c">IMAGE_SUBSYSTEM_POSIX_CUI</td>
+											<td class="td_d">POSIX控制台界面</td>
+										</tr>
+										<tr>
+											<td class="td_a">8</td>
+											<td class="td_c">IMAGE_SUBSYSTEM_NATIVE_WINDOWS</td>
+											<td class="td_d">不需要子系统</td>
+										</tr>
+										<tr>
+											<td class="td_a">9</td>
+											<td class="td_c">IMAGE_SUBSYSTEM_WINDOWS_CE_GUI</td>
+											<td class="td_d">Windows CE图形界面</td>
+										</tr>
+									</tbody>
+								</table>
+							</ul>
+							<ul><b>DataDirectory字段</b>
+								<li>这个字段可以说是最重要的字段之一，它由16个相同的IMAGE_DATA_DIRECTORY结构组成，虽然PE文件中的数据是按照装入内存后的页属性归类而被放在不同的节中的，但是这些处于各个节中的数据按照用途可以被分为导出表、导入表、资源、重定位表等数据块，这16个IMAGE_DATA_DIRECTORY结构就是用来定义多种不同用途的数据块的（如表17.4所示）。IMAGE_DATA_DIRECTORY结构的定义很简单，它仅仅指出了某种数据块的位置和长度。</li><b>
+								IMAGE_DATA_DIRECTORY STRUCT
+								<table border="0" class="tb">
+									<tbody>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">VirtualAddress</td>
+											<td class="td_d">数据的起始RVA</td>
+										</tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">isize</td>
+											<td class="td_d">数据块的长度</td>
+										</tr>
+									</tbody>
+								</table>
+								IMAGE_DATA_DIRECTORY ENDS
+								<li>数据目录列表的含义</li></b>
+								<table border="1" class="tb">
+									<tbody>
+										<tr style="background-color:gray;font-size:18px;text-align:center">
+											<td class="td_a">Address</td>
+											<td class="td_b" style="text-align:center">Size</td>
+											<td class="td_c">在Windows.inc中的预定义值</td>
+											<td class="td_d">对应的数据块</td>
+										</tr>
+										<tr class="tr">
+											<td class="td_a">+78h</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_EXPORT</td>
+											<td class="td_d">导出表RVA</td>
+										</tr>
+										<tr class="tr">
+											<td class="td_a">+80h</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_IMPORT</td>
+											<td class="td_d">导入表RVA</td>
+										</tr>
+										<tr class="tr">
+											<td class="td_a">+88h</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_RESOURCE</td>
+											<td class="td_d">资源</td>
+										</tr>
+										<tr>
+											<td class="td_a">3</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_EXCEPTION</td>
+											<td class="td_d">异常（具体资料不详）</td>
+										</tr>
+										<tr>
+											<td class="td_a">4</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_SECURITY</td>
+											<td class="td_d">安全（具体资料不详）</td>
+										</tr>
+										<tr class="tr">
+											<td class="td_a">5</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_BASERELOC</td>
+											<td class="td_d">重定位表</td>
+										</tr>
+										<tr>
+											<td class="td_a">6</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_DEBUG</td>
+											<td class="td_d">调试信息</td>
+										</tr>
+										<tr>
+											<td class="td_a">7</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_ARCHITECTURE</td>
+											<td class="td_d">版权信息</td>
+										</tr>
+										<tr>
+											<td class="td_a">8</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_GLOBALPTR</td>
+											<td class="td_d">具体资料不详</td>
+										</tr>
+										<tr>
+											<td class="td_a">9</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_TLS</td>
+											<td class="td_d">Thread Local Storage</td>
+										</tr>
+										<tr>
+											<td class="td_a">10</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG</td>
+											<td class="td_d">具体资料不详</td>
+										</tr>
+										<tr>
+											<td class="td_a">11</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT</td>
+											<td class="td_d">具体资料不详</td>
+										</tr>
+										<tr>
+											<td class="td_a">12</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_IAT</td>
+											<td class="td_d">导入函数地址表</td>
+										</tr>
+										<tr>
+											<td class="td_a">13</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT</td>
+											<td class="td_d">具体资料不详</td>
+										</tr>
+										<tr>
+											<td class="td_a">14</td>
+											<td class="td_b">DWORD+DWORD</td>
+											<td class="td_c">IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR</td>
+											<td class="td_d">具体资料不详</td>
+										</tr>
+										<tr>
+											<td class="td_a">15</td>
+											<td class="td_c" colspan="3">未使用</td>
+										</tr>	
+									</tbody>
+								</table>
+								<li>在PE文件中寻找特定的数据时就是从这些IMAGE_DATA_DIRECTORY结构开始的，比如要存取资源，那么必须从第3个IMAGE_DATA_DIRECTORY结构（索引为2）中得到资源数据块的大小和位置；同理，如果要查看PE文件导入了哪些DLL文件的哪些API函数，那就必须首先从第2个IMAGE_DATA_DIRECTORY结构得到导入表的位置和大小。</li>
+							</ul>
+						</ul></span>
+					</div>
+				</div>
+				<div class="con" id="c_num4">
+					<div class="c-top">
+						<input class="close" id="close" type="button" value="X" />
+					</div>
+					<div class="c_body" style="color:blue;font-size:18px">
+						<span style="color:#111">越学越多的结构，大家可能觉得PE挺乱挺杂的哈，所以这里插播下一下必要知识的详细注释，大伙可以按需要看。</span>
+					</div>
+					<div style="padding:0 15px">
+						<span class="span_title">PE文件到内存的映射</span>
+						<p>在执行一个PE文件的时候，windows 并不在一开始就将整个文件读入内存的，二十采用与内存映射文件类似的机制。也就是说，windows 装载器在装载的时候仅仅建立好虚拟地址和PE文件之间的映射关系。当且仅当真正执行到某个内存页中的指令或者访问某一页中的数据时，这个页面才会被从磁盘提交到物理内存，这种机制使文件装入的速度和文件大小没有太大的关系。</p><p>但是要注意的是，系统装载可执行文件的方法又不完全等同于内存映射文件。</p><p>当使用内存映射文件的时候，系统对“原著”相当忠实，如果将磁盘文件和内存映像比较的话，可以发现不管是数据本身还是数据之间的相对位置它丫丫的都是完全相同的。</p><p>而我们知道，在装载可执行文件的时候，有些数据在装入前会被预处理，如重定位等，正因此，装入以后，数据之间的相对位置可能发生微妙的变化。</p><br><p>Windows 装载器在装载DOS部分、PE文件头部分和节表（区块表）部分是不进行任何特殊处理的，而在装载节（区块）的时候则会自动按节（区块）的属性做不同的处理。</p><br>
+						<p>一般情况下，它会处理以下几个方面的内容：</p><br>
+						<ul style="font-weight:bold">
+							<li>内存页的属性</li>
+							<li>节的偏移地址</li>
+							<li>节的尺寸</li>
+							<li>不进行映射的节</li>
+						</ul><br>
+						<div>
+							<b>内存页的属性:</b>
+							<p>对于磁盘映射文件来说，所有的页都是按照磁盘映射文件函数指定的属性设置的。但是在装载可执行文件时，与节对应的内存页属性要按照节的属性来设置。所以，在同属于一个模块的内存页中，从不同节映射过来的的内存页的属性是不同的。</p>
+						</div>
+						<div>
+							<b>节的偏移地址:</b>
+							<p>节的起始地址在磁盘文件中是按照 IMAGE_OPTIONAL_HEADER32 结构的 FileAlignment 字段的值进行对齐的，而当被加载到内存中时是按照同一结构中的 SectionAlignment 字段的值对其的，两者的值可能不同，所以一个节被装入内存后相对于文件头的偏移和在磁盘文件中的偏移可能是不同的。<br>注意，节事实上就是相同属性数据的组合！当节被装入到内存中的时候，相同一个节所对应的内存页都将被赋予相同的页属性， 事实上，Windows 系统对内存属性的设置是以页为单位进行的，所以节在内存中的对齐单位必须至少是一个页的大小。（小甲鱼温馨提示：对于32位操作系统来说，这个值一般是4KB==1000H; 对于64位操作系统这个值一般是8KB==2000H）<br>在磁盘中就没有这个**，因为在磁盘中排放是以什么为主？肯定是以空间为主导，在磁盘只是存放，不是使用，所以不用设置那么详细的属性。试想想看，如果在磁盘中都是以4KB为大小对齐的话，不够就用0来填充，那么一个只占20字节的数据就要消耗4KB的空间来存放，是不是浪费？有木有？？
+							</p>
+						</div>
+						<div>
+							<b>节的尺寸:</b>
+							<p>对节的尺寸的处理主要分为两个方面：<br>第一个方面，正如刚刚我们所讲的，由于磁盘映像和内存映像中节对齐存储单位的不同而导致了长度扩展不同（填充的0数量不同嘛~）；<br>第二个方面，是对于包含未初始化数据的节的处理问题。既然是未初始化，那么没有必要为其在磁盘中浪费空间资源，但在内存中不同，因为程序一运行，之前未初始化的数据便有可能要被赋值初始化，那么就必须为他们留下空间。</p>
+						</div>
+						<div>
+							<b>不进行映射的节:</b>
+							<p>有些节并不需要被映射到内存中，例如.reloc节，重定位数据对于文件的执行代码来说是透明的，无作用的，它只是提供Windows 装载器使用，执行代码根本不会去访问到它们，所以没有必要将他们映射到物理内存中。<br><br>好了，上边的一些知识相信又是对我们之前学习的一点补充和扩展。大家可能对上边的知识觉得又是眼熟，但又觉得有几分陌生。那是当然哈，小甲鱼教学遵循的思路就是今天的知识今天学好它，明天的东西明天再学！一下子你肯定不能接受那么深的东西，像上边的东西如果放在第一讲来讲解，那么恐怕很多朋友不会继续往下看（一头雾水看下去只能两头雾水，哈~），所以咱学习要遵循循环渐进，有些重点分开来重复讲解，虽然重复，但每次都会往下加深一点来让大家容易接受哈。<br>我们可以继续了，接下来是节表，也称为区块表：</p>
+						</div>
+						<span class="span_title">节表（区块表）:</span>
+						<p>PE文件中所有节的属性都被定义在节表中，节表由一系列的IMAGE_SECTION_HEADER结构排列而成，每个结构用来描述一个节，结构的排列顺序和它们描述的节在文件中的排列顺序是一致的。全部有效结构的最后以一个空的IMAGE_SECTION_HEADER结构作为结束，所以节表中总的IMAGE_SECTION_HEADER结构数量等于节的数量加一。节表总是被存放在紧接在PE文件头的地方。</p>
+						<span style="font-size:18px;color:green">另外，节表中 IMAGE_SECTION_HEADER 结构的总数总是由PE文件头 IMAGE_NT_HEADERS 结构中的 FileHeader.NumberOfSections 字段来指定的。</span><br>							
+						<p style="color:red;font-size:20px;font-weight:bold">续第五讲...</p>
+					</div>
+				</div>
+				<div class="con" id="c_num5">
+					<div class="c-top">
+						<input class="close" id="close" type="button" value="X" />
+					</div>
+					<div class="c_body" style="font-size:18px">
+						<span style="color:#111">这一讲我们结合实例来谈谈区块表的定义以及各个属性的含义。<br><br>	首先，我们先用之前学过的一点知识在二进制文件中手动翻找区块表，这样做的好处是可以使你很快的对PE结构牢记于心。学来的东西就是能用的东西，不能用的理论是空谈，是瞎扯。<br>（具体过程演示大伙可参考小甲鱼的视频教程：《解密系列》系统篇.第五讲）<br><br>这里我们经过千辛万苦终于找到了我们的区块表了（当然将来我会教大家写一个自己的工具，让工具去找，现在让大家自己动手是为了增强感觉！），现在我们联系上一章节提到的区块表的结构对各个成员进行详细的分析：
+						</span>
+						<div class="c_body" style="color:blue;font-size:15px">
+							typedef struct _IMAGE_SECTION_HEADER  <br>{<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;BYTE Name[IMAGE_SIZEOF_SHORT_NAME];     // 节表名称,如“.text” 
+																										//IMAGE_SIZEOF_SHORT_NAME=8
+							<br>&nbsp;&nbsp;&nbsp;&nbsp;union<br>&nbsp;&nbsp;&nbsp;&nbsp;{
+							<table border="0" class="tb">
+								<tbody>
+									<tr>
+										<td class="td_b">DWORD </td>
+										<td class="td_c">PhysicalAddress</td>
+										<td class="td_d">物理地址</td>
+									</tr>
+									<tr class="tr">
+										<td class="td_b">DWORD </td>
+										<td class="td_c">VirtualSize</td>
+										<td class="td_d">真实长度，这两个值是一个联合结构，可以使用其中的任何一个，一般是取后一个</td>
+									</tr>
+								</tbody>
+							</table>
+							&nbsp;&nbsp;&nbsp;&nbsp;} Misc;
+							<table border="0" class="tb">
+								<tbody>
+									<tr class="tr">
+										<td class="td_b">DWORD </td>
+										<td class="td_c">VirtualAddress</td>
+										<td class="td_d">节区的 RVA 地址</td>
+									</tr>
+									<tr class="tr">
+										<td class="td_b">DWORD </td>
+										<td class="td_c">SizeOfRawData</td>
+										<td class="td_d">在文件中对齐后的尺寸</td>
+									</tr>
+									<tr class="tr">
+										<td class="td_b">DWORD</td>
+										<td class="td_c">PointerToRawData</td>
+										<td class="td_d">在文件中的偏移量</td>
+									</tr>
+									<tr>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">PointerToRelocations</td>
+										<td class="td_d">在OBJ文件中使用，重定位的偏移</td>
+									</tr>
+									<tr>
+										<td class="td_b">DWORD </td>
+										<td class="td_c">PointerToLinenumbers</td>
+										<td class="td_d">行号表的偏移（供调试使用地）</td>
+									</tr>
+									<tr>
+										<td class="td_b">WORD</td>
+										<td class="td_c">NumberOfRelocations</td>
+										<td class="td_d">在OBJ文件中使用，重定位项数目</td>
+									</tr>
+									<tr>
+										<td class="td_b">WORD</td>
+										<td class="td_c">NumberOfLinenumbers</td>
+										<td class="td_d">行号表中行号的数目</td>
+									</tr>
+									<tr>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">Characteristics</td>
+										<td class="td_d">节属性如可读，可写，可执行等</td>
+									</tr>
+								</tbody>
+							</table>
+							} IMAGE_SECTION_HEADER, *PIMAGE_SECTION_HEADER; 
+						</div>
+						<div>
+							<b>Name:</b>区块名。这是一个由8位的ASCII 码名，用来定义区块的名称。多数区块名都习惯性以一个“.”作为开头（例如：.text），这个“.” 实际上是不是必须的。值得我们注意的是，如果区块名超过 8 个字节，则没有最后的终止标志“NULL” 字节。并且前边带有一个<span style="color:red;font-weight:bold">“区块名字会从连接器那里得到特殊的待遇，前边带有"</span>的相同名字的区块在载入时候将会被合并，在合并之后的区块中，他们是按照“$” 后边的字符的字母顺序进行合并的。<br>另外小甲鱼童鞋要跟大家啰嗦一下的是：每个区块的名称都是唯一的，不能有同名的两个区块。但事实上节的名称不代表任何含义，他的存在仅仅是为了正规统一编程的时候方便程序员查看方便而设置的一个标记而已。所以将包含代码的区块命名为“.Data” 或者说将包含数据的区块命名为“.Code” 都是合法的。<br>因此，小甲鱼建议大家：当我们要从PE 文件中读取需要的区块时候，不能以区块的名称作为定位的标准和依据，正确的方法是按照 IMAGE_OPTIONAL_HEADER32 结构中的数据目录字段结合进行定位。<br>
+							<b>VirtualSize:</b>对表对应的区块的大小，这是区块的数据在没有进行对齐处理前的实际大小。<br>
+							<b>VirtualAddress:</b>该区块装载到内存中的RVA 地址。这个地址是按照内存页来对齐的，因此它的数值总是 SectionAlignment 的值的整数倍。在Microsoft 工具中，第一个快的默认 RVA 总为1000h。在OBJ 中，该字段没有意义地，并被设为0。<br>
+							<b>SizeOfRawData:</b>该区块在磁盘中所占的大小。在可执行文件中，该字段是已经被FileAlignment 潜规则处理过的长度。<br>
+							<b>PointerToRawData:</b>
+							该区块在磁盘中的偏移。这个数值是从文件头开始算起的偏移量哦。<br>
+							<b>PointerToRelocations:</b>
+							这哥们在EXE文件中没有意义，在OBJ 文件中，表示本区块重定位信息的偏移值。（在OBJ 文件中如果不是零，它会指向一个IMAGE_RELOCATION 结构的数组）<br>
+							<b>PointerToLinenumbers:</b>
+							行号表在文件中的偏移值，文件的调试信息，于我们没用，鸡肋。<br>
+							<b>NumberOfRelocations:</b>
+							哥们在EXE文件中也没有意义，在OBJ 文件中，是本区块在重定位表中的重定位数目来着。<br>
+							<b>NumberOfLinenumbers:</b>
+							该区块在行号表中的行号数目，鸡肋。<br>
+							<b>Characteristics:</b>
+							该区块的属性。该字段是按位来指出区块的属性（如代码/数据/可读/可写等）的标志。<br><br>
+							对表对应的区块的大小，这是区块的数据在没有进行对齐处理前的实际大小。
+							具体内容可以参考<a href="http://msdn.microsoft.com/en-us/library/ms680341%28v=vs.85%29.aspx" tarGet="_blank">MSDN在线文档</a>								
+						</div>
+						<table border="1" class="tb" style="font-size:14px">
+								<tbody>
+									<tr>
+										<td class="td_c">IMAGE_SCN_CNT_CODE<br>0x00000020
+										</td>
+										<td class="td_d">The section contains executable code.<br>包含代码，常与 0x10000000一起设置。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_SCN_CNT_INITIALIZED_DATA<br>0x00000040
+										</td>
+										<td class="td_d">The section contains initialized data.<br>该区块包含以初始化的数据。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_SCN_CNT_UNINITIALIZED_DATA<br>0x00000080
+										</td>
+										<td class="td_d">The section contains uninitialized data.<br>该区块包含未初始化的数据。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_SCN_MEM_DISCARDABLE<br>0x02000000
+										</td>
+										<td class="td_d">The section can be discarded as needed.<br>该区块可被丢弃，因为当它一旦被装入后，进程就不在需要它了，典型的如重定位区块。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_SCN_MEM_SHARED<br>0x10000000
+										</td>
+										<td class="td_d">The section can be shared in memory.<br>该区块为共享区块。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_SCN_MEM_EXECUTE<br>0x20000000
+										</td>
+										<td class="td_d">The section can be executed as code.<br>该区块可以执行。通常当0x00000020被设置时候，该标志也被设置。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_SCN_MEM_READ<br>0x40000000
+										</td>
+										<td class="td_d">The section can be read.<br>该区块可读，可执行文件中的区块总是设置该标志。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_SCN_MEM_WRITE<br>0x80000000
+										</td>
+										<td class="td_d">The section can be written to.<br>该区块可写。</td>
+									</tr>
+								</tbody>
+							</table>
+					</div>
+				</div>
+				<div class="con" id="c_num6">
+						<div class="c-top">
+							<input class="close" id="close" type="button" value="X" />
+						</div>
+						<div class="c_body" style="font-size:18px">
+							<span style="color:#111">
+								<b>各种区块的描述：</b><br>
+								很多朋友喜欢听小甲鱼的PE详解，因为他们觉得课堂上老师讲解的都是略略带过，绕得大家云里雾里~刚好小甲鱼文采也没课堂上的教授讲的那么好，只能以比较通俗的话语来给大家描述~<br>
+								通常，区块中的数据在逻辑上是关联的。PE 文件一般至少都会有两个区块：一个是代码块，另一个是数据块。每一个区块都需要有一个截然不同的名字，这个名字主要是用来表达区块的用途。例如有一个区块叫.rdata，表明他是一个只读区块。注意：区块在映像中是按起始地址（RVA）来排列的，而不是按字母表顺序。<br><br>
+								另外，使用区块名字只是人们为了认识和编程的方便，而对操作系统来说这些是无关紧要的。微软给这些区块取了个有特色的名字，但这不是必须的。当编程从PE 文件中读取需要的内容时，如输入表、输出表，不能以区块名字作为参考，正确的方法是按照数据目录表中的字段来进行定位。
+							</span>
+							<div class="c_body" style="color:blue;font-size:20px">
+								下表中的区块名称以及意义： <img src="images/districtBlock01.jpg" alt="区表"/><img src="images/districtBlock02.jpg" alt="区表"/><img src="images/districtBlock03.jpg" alt="区表"/>
+							</div>
+							<div>
+								当然我们在Visual C++ 中也可以自己命名我们的区块，用#pragma 来声明，告诉编译器插入数据到一个区块内，格式如下：<br><span style="color:red;font-weight:bold"> #pragma data_msg( "FC_data" ) </span><br>大家还记得吧，#为宏处理符号，啥是宏？简单的说就是编译器的时候由编译器直接先进行翻译。或许说按照指定的格式机械替换。嘻嘻，学破解要懂编程呐~<br><br>以上语句告诉编译器将数据都放进一个叫“FC_data” 的区块内，而不是默认的.data 区块。区块一般是从OBJ 文件开始，被编译器放置的。链接器的工作就是合并左右OBJ 和库中需要的块，使其成为一个最终合适的区块。链接器会遵循一套相当完整的规则，它会判断哪些区块将被合并以及如何被合并。<br><br><b>合并区块：</b><br>链接器的一个有趣特征就是能够合并区块。如果两个区块有相似、一致性的属性，那么它们在链接的时候能被合并成一个单一的区块。这取决于是否开启编译器的 /merge 开关。事实上合并区块有一个好处就是可以节省磁盘的内存空间……注意：我们不应该将.rsrc、.reloc、.pdata 合并到**的区块里。<br>
+								<b>区块的对齐值：</b><br>之前我们简单了解过区块是要对齐的，无论是在内存中存放还是在磁盘中存放~但他们一般的对齐值是不同的。<br><br>PE 文件头里边的FileAligment 定义了磁盘区块的对齐值。每一个区块从对齐值的倍数的偏移位置开始存放。而区块的实际代码或数据的大小不一定刚好是这么多，所以在多余的地方一般以00h 来填充，这就是区块间的间隙。<br><br>例如，在PE文件中，一个典型的对齐值是200h ，这样，每个区块都将从200h 的倍数的文件偏移位置开始，假设第一个区块在400h 处，长度为90h，那么从文件400h 到490h 为这一区块的内容，而由于文件的对齐值是200h，所以为了使这一区块的长度为FileAlignment 的整数倍，490h 到 600h 这一个区间都会被00h 填充，这段空间称为区块间隙，下一个区块的开始地址为600h 。<br><br>
+								PE 文件头里边的SectionAligment 定义了内存中区块的对齐值。PE 文件被映射到内存中时，区块总是至少从一个页边界开始。<br><br>
+								一般在X86 系列的CPU 中，页是按4KB（1000h）来排列的；在IA-64 上，是按8KB（2000h）来排列的。所以在X86 系统中，PE文件区块的内存对齐值一般等于 1000h，每个区块按1000h 的倍数在内存中存放。<br><br>
+								<b>RVA 和文件偏移的转换</b><br>
+								在前边我们探讨过RVA 这个词，但对于初次接触PE 文件的朋友来说，显得尤其陌生和无奈。中国人不喜欢老外的缩写，但总要**着接受……不过，在有了前边知识的铺垫之后，现在来谈这个概念大家伙应该能够得心应手了。起码不用显得那么的费解和无奈~<br><br>
+								RVA 是相对虚拟地址（Relative Virtual Address）的缩写，顾名思义，它是一个“相对地址”。PE 文件中的各种数据结构中涉及地址的字段大部分都是以 RVA 表示的，有木有？？<br><br>
+								更为准确的说，RVA 是当PE 文件被装载到内存中后，某个数据位置相对于文件头的偏移量。举个例子，如果 Windows 装载器将一个PE 文件装入到 00400000h 处的内存中，而某个区块中的某个数据被装入 0040**xh 处，那么这个数据的 RVA 就是（0040**xh - 00400000h ）= **xh，反过来说，将 RVA 的值加上文件被装载的基地址，就可以找到数据在内存中的实际地址。<br><br>
+								看图说话：<img src="images/AreaTable.jpg" alt="区表"/>
+								很明显，我们发现，DOS 文件头、PE 文件头和区块表的偏移位置与大小均没有变化。而各个区块映射到内存后，其偏移位置就发生了变化。<br><br>RVA 使得文件装入内存后的数据定位变得方便，然而却给我们要定位位于磁盘上的静态PE 文件带来了麻烦。举个例子说话：……由于例子在视频中，这里争取时间我就不写啦，大伙看参考视频演示吧。<b><br><br>如何换算 RVA 和文件偏移呢？</b><br>步骤一：循环扫描区块表得出每个区块在内存中的起始 RVA（根据IMAGE_SECTION_HEADER 中的VirtualAddress 字段），并根据区块的大小（根据IMAGE_SECTION_HEADER 中的SizeOfRawData 字段）算出区块的结束 RVA（两者相加即可），最后判断目标 RVA 是否落在该区块内。<br>步骤二：通过步骤一定位了目标 RVA 处于具体的某个区块中后，那么用目标 RVA 减去该区块的起始 RVA ，这样就能得到目标 RVA 相对于起始地址的偏移量 RVA2.<br>很明显，我们发现，DOS 文件头、PE 文件头和区块表的偏移位置与大小均没有变化。而各个区块映射到内存后，其偏移位置就发生了变化。<br>步骤三：在区块表中获取该区块在文件中所处的偏移地址（根据IMAGE_SECTION_HEADER 中的PointerToRawData 字段）, 将这个偏移值加上步骤二得到的 RVA2 值，就得到了真正的文件偏移地址。<br>为节省笔墨和时间，以上步骤将在视频中具体演示……<br><br>通过上述三个步骤，我们可以写得出程序……			
+							</div>
+						</div>
+				</div>
+				<div class="con" id="c_num7">
+					<div class="c-top">
+						<input class="close" id="close" type="button" value="X" />
+					</div>
+					<div class="c_body" style="font-size:18px">
+						<span style="color:#111">
+							<span style="color:red">
+								<p>捷径并不是把弯路改直了，而是帮你把岔道堵上！</p>
+								<p>走得弯路跟成长的速度是成正比的！不要害怕走上弯路，弯路会让你懂得更多，最终还是会在终点交汇！</p>
+								<p>岔路会将你引入万劫不复的深渊，并越走越深……</p>
+							</span>
+								在开始讲解输入表（导入表）概念之前，请允许小甲鱼童鞋用简短的几句话来总结之前我们学过的内容，并做进一步的思想综合提升，注意咯！<br><br>
+								首先，我们知道PE 文件中的数据被载入内存后根据不同页面属性被划分成很多区块（节），并有区块表（节表）的数据来描述这些区块。这里我们需要注意的问题是：<b>一个区块中的数据仅仅只是由于属性相同而放在一起，并不一定是同一种用途的内容。例如接着要讲的输入表、输出表等就有可能和只读常量一起被放在同一个区块中，因为他们的属性都是可读不可写的。</b><br>其次，由于不同用途的数据有可能被放入同一个区块中，因此仅仅依靠区块表是无法确定和定位的。那要怎么办？对了，PE 文件头中 IMAGE_OPTIONAL_HEADER32 结构的数据目录表来指出他们的位置，我们可以由数据目录表来定位的数据包括输入表、输出表、资源、重定位表和TLS等15 种数据。（数据目录表，不要以为他在前边出现就不重要哦~）
+						</span>							
+						<div>
+							这节课我们谈的是输入表，为什么需要输入表呢？因为我们从数据目录表得到的仅仅是一些指定数据的RVA 和数据块的尺寸，很明显，不同的数据块中的数据组织方式（结构）是显然不同的，例如输入表和资源数据块中的数据就完全是牛马不相及的两个东西。因此，我们想要深入了解PE 文件就必须了解这些数据的组织方式，以及了解系统是如何处理调用它们的。<br><br>
+							<b>输入函数</b><br>在代码分析或编程中经常遇到“输入函数（Import Functions，也称导入函数）”的概念。这里我们就来解释下，输入函数就是被程序调用但其执行代码又不在程序中的函数，这些函数的代码位于相关的DLL 文件中，在调用者程序中只保留相关的函数信息（如函数名、DLL 文件名等）就可以。对于磁盘上的PE 文件来说，它无法得知这些输入函数在内存中的地址，只有当PE 文件被装入内存后，Windows 加载器才将相关DLL 装入，并将调用输入函数的指令和函数实际所处的地址联系起来。这就是“动态链接”的概念。动态链接是通过PE 文件中定义的“输入表”来完成的，输入表中保存的正是函数名和其驻留的DLL 名等。<br>
+							<b>实例预演（视频中将演示，这里只能截图）</b><br>
+							之所以是预演，主要是因为咱还没对输入表进行解剖前就来给大家演示一下尝尝鲜找找滋味~不然学习总是无趣的和郁闷的~（参与演示的例子程序和工具都可以到<a href="" target="_blank">解密系列课件与源代码下载区</a> 找到对应的帖子下载，也可以看咱视频演示：<a href="" target="_blank">解密系列视频讲座 </a>）<img src="images/ImportTable1.jpg" alt="导入表"/>以上是咱这次实验的小青蛙哈~灰常简单的一个小程序，如图双击程序只显示一个对话窗口，然后就结束~试验用小程序，我们尽量的将内部的结构删减，调试起来才方便些。我们这次体验的目的就是想靠所学的知识，试图来找到MessageBox 在内存中的地址。<br><br>
+							注：MessageBox 是来自于USER32.DLL 动态链接库里的一个函数，我们通过对PE 文件的静态反编译分析来观察hello.exe 这个试验品是如何定位和调用MessageBox 这个在“异乡”的函数哈。<br>
+							（MessageBox 有两个版本，一个是MessageBoxA 还有一个是MessageBoxW 分别带便ASCII码形式和UNICODE~历史故事了~）<br>
+							体验开始：<br>
+							我们用曾经号称为屠龙刀的W32DAM 对hello.exe进行反编译，如图：
+							<img src="images/ImportTable2.jpg" alt="导入表"/>
+							我们可以看到这个程序只有两个导入模块（Import Module），分别导入来自两个动态链接库（USER32.DLL和KERNEL32.DLL）的若干函数，我们还清晰可见，咱要跟踪的MessageBoxA 就在USER32.DLL 中，这里程序还自动给我们定位了它的虚拟地址：2A2DC，但我们不要用这个，因为我们说过这回我们是来探险的，凡事讲究人工……<br>
+							我们通过W32DASM 的查找功能找出MessageBox 这个函数代码的位置，并试图查看他的汇编跳转~<br>
+							为啥，这要从汇编调用子程序说起啦~简单的说就是汇编语言要调用子程序会运用到CALL 和 RET这样的搭配来进行，学过咱《零基础入门学习汇编语言》的童鞋还记得小甲鱼当时的动画片演示吧？！上图……<img src="images/ImportTable3.jpg" alt="导入表"/>
+							各位看官看到了吧？push xxxx   push xxxx   push xxxx   push xxxx 之后再来一个Call xxxx ……<br>
+							没错，这就是调用函数的一个标准形式。每个push 其实就是将所要调用的函数需要的参数入栈，为啥要入栈呢？这又要从地球的起源说起了……我这里就简单的说下吧：栈的发明，使得函数和子程序的出现成为可能！对于局部变量和参数，栈的特性最适合不过~不明白不急哈，这个是汇编语言和编译原理的范畴了，以后咱学习深入自然会碰到，到时候再来详细解决就可以。<br><br>
+							int MessageBox( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType // style of message box );<br>
+							由定义可见MessageBox 函数共有四个参数，因此我们四次push xxxx 分别将参数按照STDCALL 的方式入栈之后，就可以CALL MessageBox 这个函数了。好，既然是CALL 我们的目标函数了，通过反汇编我们就可以观察到它的地址是：[0042A2AC]，难道就这么简单？42A2AC 就是目标函数的地址？<br>
+							那我们就直接把程序往下拉，试图找找这个 42A2AC 的地址吧~可是…… <br>
+							我们悲剧的发觉，程序压根还没到 42A2AC 这地方，到了421FF8 就结束了！！什么情况呢？或许……或许……或许……在没详细讲输入表时我们还不能直接给大家答案……好吧，小甲鱼这里提问一下，这是一个什么地址呢？偏移地址 or 虚拟地址？恩，没错，这是一个VA 哈，那这个VA 上节课我们说过可以换算成存放在实际物理内存上的方法。具体就是将这个VA 与该程序的各个区块的VA 地址逐一对比，由于PE 头文件有记载每个区块的VA 地址也同时记载着它的实际物理地址，因此我们可以通过判断该VA 位于哪个区块内并求出与区块VA 的差值进而求出该VA 的实际物理地址。那既然前边直直的路子走不通，我们就试下把他转换为物理地址试试吧？！<br><br>
+							好吧，我知道我说话又绕口令了，咱就实例演示下，不然大家要喷了……上图……
+							<img src="images/ImportTable4.jpg" alt="导入表"/>
+							我们看到，咱的42A2AC 地址加载咱的2A000 和 2B000 之间（改程序VC编写，映像基地址为400000打头哦~），因此我们可以将该地址定位到改程序位于.idata 区块内。该区块的VA 起始地址为42A000，因此42A2AC - 42A000 = 2AC，raw data offs 跟我们说该区块的物理地址是28000，因此42A2AC 这个VA 所对应的物理偏移地址就是 28000 + 2AC = 282AC。<br>咱用UE 打开看下282AC 这偏移地址上有啥东西……<br><br>282AC 这个地址上存放着 DCA20200 这个数据，翻译成ASCII 码也是莫名其妙的说~但我们把DCA20200 当成一个DWORD 类型的数据来读的话我们得到数据 0002A2DC（还记得大端与小端吧）慢着，是不是很熟悉，又是2A****开头，跟咱之前的地址是不是差不多？那好，我们又按照刚才的方法转化为偏移地址试试，转化后得到的偏移地址是：282DC，咱再看看282DC 里边有啥神秘的东西吧？<br>哈哈，看到奇迹了吗？从282DC 地址读起，ASCII 码对应的值是MessageBoxA.USER32.dll 怎么样，有点神秘的成就感吧~<br><br>但根本问题我们还是没能解决：MessageBox 的地址是？其实在这里我们还不能帮大家解决这个问题，因为我们缺乏对输入表的深入理解，所以我们期待吧，下节课将揭开输入表的神秘面纱……
+						</div>
+					</div>
+				</div>
+				<div class="con" id="c_num8">
+					<div class="c-top">
+						<input class="close" id="close" type="button" value="X" />
+					</div>
+					<div class="c_body" style="font-size:18px">
+						<span style="color:#111">
+							在此之前，我们已经对这个输入表进行了一些实践和理解，这有助于大家对这个概念更进一步的加深认识。小甲鱼觉得，越是复杂的问题我们应该越是去动手操作它，认识它，这样才容易熟悉它！<br><br>	
+							在上一节课我们像小鹿一样的乱撞，终于撞到了输入表里边包含的函数名称，嘿嘿，不过地址，我们还是没能找着……这节课我们将深入来剖析输入表的结构，通过结合实例分析来帮助大家理解输入表的工作原理。<br><br>
+							<span>
+								<b style="font-size:22px;color:green">输入表结构</b><br>
+								回顾一下，在 PE文件头的 IMAGE_OPTIONAL_HEADER 结构中的 DataDirectory(数据目录表) 的第二个成员就是指向输入表的。而输入表是以一个 IMAGE_IMPORT_DESCRIPTOR(简称IID) 的数组开始。每个被 PE文件链接进来的 DLL文件都分别对应一个 IID数组结构。在这个 IID数组中，并没有指出有多少个项(就是没有明确指明有多少个链接文件)，但它最后是以一个全为NULL(0) 的 IID 作为结束的标志。
+							</span>
+						</span>
+						<div class="c_body" style="color:blue;font-size:15px">
+							<b style="color:#111">IMAGE_IMPORT_DESCRIPTOR 结构定义如下：</b><br>
+							&nbsp;&nbsp;&nbsp;&nbsp;IMAGE_IMPORT_DESCRIPTOR STRUCT
+							<table border="0" class="tb">
+								<tbody>
+									<tr>
+										<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;union</td>
+										<td></td>
+									</tr>	
+									<tr>
+										<td class="td_b tr" rowspan="2">DWORD </td>
+										<td class="td_c">Characteristics</td>
+									</tr>
+									<tr class="tr">										
+										<td class="td_c">OriginalFirstThunk</td>
+									</tr>								
+									<tr>
+										<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ends</td>
+										<td></td>
+									</tr>									
+									<tr>
+										<td class="td_b">DWORD </td>
+										<td class="td_c">TimeDateStamp</td>
+									</tr>
+									<tr>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">ForwarderChain</td>
+									</tr>
+									<tr>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">Name</td>
+									</tr>
+									<tr class="tr">
+										<td class="td_b">DWORD </td>
+										<td class="td_c">FirstThunk</td>
+									</tr>
+								</tbody>
+							</table>
+							IMAGE_IMPORT_DESCRIPTOR ENDS 
+						</div>
+						<div>
+							<b style="font-size:18px;color:green">成员介绍:</b><br>
+							<b>OriginalFirstThunk:</b>它指向first thunk，IMAGE_THUNK_DATA，该 thunk 拥有 Hint 和 Function name 的地址。<br>							
+							<b>TimeDateStamp:</b>该字段可以忽略。如果那里有绑定的话它包含时间/数据戳（time/data stamp）。如果它是0，就没有绑定在被导入的DLL中发生。在最近，它被设置为0xFFFFFFFF以表示绑定发生。<br>
+							<b>ForwarderChain:</b>一般情况下我们也可以忽略该字段。在老版的绑定中，它引用API的第一个forwarder chain（传递器链表）。它可被设置为0xFFFFFFFF以代表没有forwarder。<br>
+							<b>Name:</b>它表示DLL 名称的相对虚地址（译注：相对一个用null作为结束符的ASCII字符串的一个RVA，该字符串是该导入DLL文件的名称，如：KERNEL32.DLL）。<br>
+							<b>FirstThunk:</b>
+							该区块在磁盘中的偏移。这个数值是从文件头开始算起的偏移量哦。<br>
+							<b>PointerToRelocations:</b>
+							它包含由IMAGE_THUNK_DATA定义的 first thunk数组的虚地址，通过loader用函数虚地址初始化thunk。在Orignal First Thunk缺席下，它指向first thunk：Hints和The Function names的thunks。<br>
+							这个OriginalFirstThunk 和 FirstThunk明显是亲家，两家伙首先名字就差不多哈。那他们有什么不可告人的秘密呢？来，我们看下面一张图（画的很辛苦，大家仔细看哈）：
+							<img src="images/ImportTable5.jpg" alt="导入表"/>
+							我们看到：OriginalFirstThunk 和 FirstThunk 他们都是两个类型为IMAGE_THUNK_DATA 的数组，它是一个指针大小的联合（union）类型。每一个IMAGE_THUNK_DATA 结构定义一个导入函数信息（即指向结构为IMAGE_IMPORT_BY_NAME 的家伙，这家伙稍后再议），然后数组最后以一个内容为0 的 IMAGE_THUNK_DATA 结构作为结束标志。<br>
+							<div class="c_body" style="color:blue;font-size:15px">
+								<b style="color:#111">我们得到 IMAGE_THUNK_DATA 结构的定义如下：</b><br>
+								IMAGE_THUNK_DATA STRUC
+								<table border="0" class="tb">
+									<tbody>
+										<tr>
+											<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;union u1</td>
+										</tr>	
+										<tr>
+											<td class="td_b tr" rowspan="4">DWORD </td>
+											<td class="td_c">ForwarderString</td>
+											<td class="td_d">指向一个转向者字符串的RVA</td>
+										</tr>									
+										<tr>
+											<td class="td_c">Function</td>
+											<td class="td_d">被输入的函数的内存地址</td>
+										</tr>
+										<tr>
+											<td class="td_c">Ordinal</td>
+											<td class="td_d">被输入的API 的序数值</td>
+										</tr>
+										<tr>
+											<td class="td_c">AddressOfData</td>
+											<td class="td_d">指向 IMAGE_IMPORT_BY_NAME</td>
+										</tr>
+										<tr>
+											<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ends</td>
+										</tr>	
+									</tbody>
+								</table>
+								IMAGE_THUNK_DATA ENDS
+							</div>
+							<div>
+								<span>
+									我们可以看出由于是union结构，所以IMAGE_THUNK_DATA 事实上是一个双字大小。该结构在不同时候赋予不同的意义（伟大神奇不得鸟……）。其实union这种数据结构很容易理解：说白了就是当时穷，能省就省，再说白了，就是几兄弟姐妹轮流穿一条裤子去相亲！理解了吧？哈哈~<br>
+								</span>
+								<span>
+									那我们怎么来区分何时是何意义呢？规定如下：<br>当 IMAGE_THUNK_DATA 值的最高位为 1时，表示函数以序号方式输入，这时候低 31位被看作一个函数序号。<br>
+									当 IMAGE_THUNK_DATA 值的最高位为 0时，表示函数以字符串类型的函数名方式输入，这时双字的值是一个 RVA，指向一个 IMAGE_IMPORT_BY_NAME 结构。（演示请看小甲鱼解密系列视频讲座）<br>
+									好，那接着我们讨论下指向的这个 IMAGE_IMPORT_BY_NAME 结构。IMAGE_IMPORT_BY_NAME 结构仅仅只有一个字型数据的大小，存有一个输入函数的相关信息结构。其结构如下：
+								</span>
+							</div>
+							<div class="c_body" style="color:blue;font-size:15px">						
+								IMAGE_IMPORT_BY_NAME STRUCT
+								<table border="0" class="tb">
+									<tbody>										
+										<tr>
+											<td class="td_b">WORD </td>
+											<td class="td_c">Hint</td>
+										</tr>									
+										<tr>
+											<td class="td_b">BYTE</td>
+											<td class="td_c">Name</td>
+										</tr>
+									</tbody>
+								</table>
+								IMAGE_IMPORT_BY_NAME ENDS
+							</div>
+							<span>
+								结构中的 Hint 字段也表示函数的序号，不过这个字段是可选的，有些编译器总是将它设置为 0，Name 字段定义了导入函数的名称字符串，这是一个以 0 为结尾的字符串。整个过程看起来有点绕有点烦，别急，后边我们有演示哈。<br><br>							
+								<b style="font-size:26px;color:green">输入地址表（IAT）</b><br>
+								为什么由两个并行的指针数组同时指向 IMAGE_IMPORT_BY_NAME 结构呢？第一个数组（由 OriginalFirstThunk 所指向）是单独的一项，而且不能被改写，我们前边称为 INT。第二个数组（由 FirstThunk 所指向）事实上是由 PE 装载器重写的。<br>
+								好了，那么 PE 装载器的核心操作时如何的呢？这里就给大家揭秘啦~<br>
+								PE 装载器首先搜索 OriginalFirstThunk ，找到之后加载程序迭代搜索数组中的每个指针，找到每个 IMAGE_IMPORT_BY_NAME 结构所指向的输入函数的地址，然后加载器用函数真正入口地址来替代由 FirstThunk 数组中的一个入口，因此我们称为输入地址表（IAT）。所以，当我们的 PE 文件装载内存后准备执行时，刚刚的图就会转化为下图：
+								<img src="images/ImportTable6.jpg" alt="导入表"/>
+								<p>此时，输入表中其他部分就不重要了，程序依靠 IAT 提供的函数地址就可正常运行。</p>
+								<b style="font-size:26px;color:green">输入表实例分析：(具体过程将在视频中演示，这里不啰嗦啦~)</b><br>
+								工具：PEinfo.exe, UltraEdit, LordPE<br>解剖对象：hello.exe<br><br>
+								经过我的实践发现<br>
+								第一 AddressOfData 指向一个IMAGE_IMPORT_BY_NAME的虚拟地址（RVA）没错。但是使用MFC的时候 通过入口地址获取到AddressOfData 这个值有时候会大于出口地址。这个时候如果进行访问就会报错。所以在读取模块 模块函数的时候 应该判断 AddressOfData是否大于模块入口地址。如果大于说明是MFC自带的调试模块。应该是的。就跳过<br>
+								第二 如果Hook AddressOfData 这个地址的时候默认情况下是不可以的。因为它的内存地址属性不支持写操作。所以我们要在HOOK它之前。修改内存属性。使用VirtualProtect. PAGE_EXECUT_WRITEREAD来改变内存属性。使用VirtualQuery可以查询内存地址属性<br>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="con" id="c_num9">
+					<div class="c-top">
+						<input class="close" id="close" type="button" value="X" />
+					</div>
+					<div class="c_body" style="font-size:18px">
+						<p>当PE 文件被执行的时候，Windows 加载器将文件装入内存并将导入表(Export Table) 登记的动态链接库(一般是DLL 格式)文件一并装入地址空间，再根据DLL 文件中的函数导出信息对被执行文件的IAT 进行修正。</p>
+						<p>( 基础补充：很多朋友可能看到这里会有点懵，各位看官请允许小甲鱼啰嗦一下，照顾初学者。我们都明白Windows 在加载一个程序后就在内存中为该程序开辟一个单独的虚拟地址空间，这样的话在各个程序自己看来，自己就拥有几乎任意地址的支配权，所以他自身的函数想放在哪个地址自己说了算。有一些函数很多程序都会用到，为每一个程序写一个相同的函数看起来似乎有点浪费空间，因此Windows就整出了动态链接库的概念，将一些常用的函数封装成动态链接库，等到需要的时候通过直接加载动态链接库，将需要的函数整合到自身中，这样就大大的节约了内存中资源的存放。如图：</p>
+						<img src="images/ExportTable1.jpg" alt="导出表"/>
+						<p>有一个重要的概念需要记住：动态链接库是被映射到其他应用程序的地址空间中执行的，它和应用程序可以看成是“一体”的，动态链接库可以使用应用程序的资源，它所拥有的资源也可以被应用程序使用，它的任何操作都是代表应用程序进行的，当动态链接库进行打开文件、分配内存和创建窗口等操作后，这些文件、内存和窗口都是为应用程序所拥有的。所以，动态链接库用小甲鱼的话说就是“寄生虫”! )</p>
+						<p>那导出表是干啥用的呢? 导出表就是记载着动态链接库的一些导出信息。通过导出表，DLL 文件可以向系统提供导出函数的名称、序号和入口地址等信息，比便Windows 加载器通过这些信息来完成动态连接的整个过程。</p>
+						<p>友情提示：扩展名为.exe 的PE 文件中一般不存在导出表，而大部分的.dll 文件中都包含导出表。但注意，这并不是绝对的。例如纯粹用作资源的.dll 文件就不需要导出函数啦，另外有些特殊功能的.exe 文件也会存在导出函数。所以，世事无绝对……好了，我们接下来就对导出表的结构进行分析。</p><br>
+						<b style="font-size:22px;color:green">导出表结构</b><br>
+						<p>导出表（Export Table）中的主要成分是一个表格，内含函数名称、输出序数等。序数是指定DLL 中某个函数的16位数字，在所指向的DLL 文件中是独一无二的。在此我们不提倡仅仅通过序数来索引函数的方法，这样会给DLL 文件的维护带来问题。例如当DLL 文件一旦升级或修改就可能导致调用改DLL 的程序无法加载到需要的函数。</p>
+						<p>数据目录表的第一个成员指向导出表，是一个IMAGE_EXPORT_DIRECTORY(以后简称IED)结构，IED 结构的定义如下：</p>
+						<div class="c_body" style="color:blue;font-size:15px">							
+							IMAGE_EXPORT_DIRECTORY STRUCT
+							<table border="0" class="tb">
+								<tbody>
+									<tr style="text-decoration:line-through">
+										<td class="td_a">+0H</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">Characteristics</td>
+										<td class="td_d">未使用，总是定义为0</td>
+									</tr>
+									<tr style="text-decoration:line-through">
+										<td class="td_a">+4H</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">TimeDateStamp</td>
+										<td class="td_d">文件生成时间</td>
+									</tr>
+									<tr style="text-decoration:line-through">
+										<td class="td_a">+8H</td>
+										<td class="td_b">WORD</td>
+										<td class="td_c">MajorVersion</td>
+										<td class="td_d">未使用，总是定义为0</td>
+									</tr>
+									<tr style="text-decoration:line-through">
+										<td class="td_a">+0aH</td>
+										<td class="td_b">WORD</td>
+										<td class="td_c">MajorVersion</td>
+										<td class="td_d">未使用，总是定义为0</td>
+									</tr>
+									<tr>
+										<td class="td_a">+0cH</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">Name</td>
+										<td class="td_d">模块的真实名称</td>
+									</tr>
+									<tr>
+										<td class="td_a">+10H</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">Base</td>
+										<td class="td_d">基数，加上序数就是函数地址数组的索引值</td>
+									</tr>
+									<tr>
+										<td class="td_a">+14H</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">NumberOfFunctions</td>
+										<td class="td_d">导出函数的总数</td>
+									</tr>
+									<tr>
+										<td class="td_a">+18H</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">NumberOfNames</td>
+										<td class="td_d">以名称方式导出的函数的总数</td>
+									</tr>
+									<tr>
+										<td class="td_a">+20cH</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">AddressOfFunctions</td>
+										<td class="td_d">指向输出函数地址的RVA</td>
+									</tr>
+									<tr>
+										<td class="td_a">+24cH</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">AddressOfNames</td>
+										<td class="td_d">指向输出函数名字的RVA</td>
+									</tr>
+									<tr>
+										<td class="td_a">+28cH</td>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">AddressOfNameOrdinals</td>
+										<td class="td_d">指向输出函数序号的RVA</td>
+									</tr>		
+								</tbody>
+							</table>
+							IMAGE_EXPORT_DIRECTORY ENDS 
+						</div>
+						<p>这个结构中的一些字段并没有被使用，有意义的字段说明如下:</p>
+						<ul>
+							<li><b>Name：</b>一个RVA 值，指向一个定义了模块名称的字符串。如即使Kernel32.dll 文件被改名为"Ker.dll"，仍然可以从这个字符串中的值得知其在编译时的文件名是"Kernel32.dll"。</li>
+							<li><b>NumberOfFunctions：</b>文件中包含的导出函数的总数。</li>
+							<li><b>NumberOfNames：</b>被定义函数名称的导出函数的总数，显然只有这个数量的函数既可以用函数名方式导出。也可以用序号方式导出，剩下 的NumberOfFunctions 减去NumberOfNames 数量的函数只能用序号方式导出。该字段的值只会小于或者等于 NumberOfFunctions 字段的值，如果这个值是0，表示所有的函数都是以序号方式导出的。(ring3 NumberOfNames[索引值] == 0x10000 说明遍历完成 ring0 MmIsAddressValid 判断 模块基地址+NumberOfNames[索引值] 是不是有效地址。不是。说明遍历完成)</li>
+						 	<li><b>AddressOfFunctions：</b>一个RVA 值，指向包含全部导出函数入口地址的双字数组。数组中的每一项是一个RVA 值，数组的项数等于NumberOfFunctions 字段的值。</li>
+							<li><b>Base：</b>导出函数序号的起始值，将AddressOfFunctions 字段指向的入口地址表的索引号加上这个起始值就是对应函数的导出 序号。假如Base 字段的值为x，那么入口地址表指定的第1个导出函数的序号就是x；第2个导出函数的序号就是x＋1。总之，一个导出函数的导出序号等 于Base 字段的值加上其在入口地址表中的位置索引值。(经过我的测试貌似不需要+Base 序号直接旧事AddressOfFunctions指向数组的索引值)</li>
+							<li><b>AddressOfNames 和 AddressOfNameOrdinals：</b>均为RVA 值。前者指向函数名字符串地址表。这个地址表是一个双字数组，数组中的每一项指向一个函数名称字符串的RVA。数组的项数等于NumberOfNames 字段的值，所有有名称的导出函数的名称字符串都定义在这个表中；后者指向另一个word 类型的数组（注意不是双字数组）。数组项目与文件名地址表中的项目一一对应，项目值代表函数入口地址表的索引，这样函 数名称与函数入口地址关联起来。（举个例子说，加入函数名称字符串地址表的第n 项指向一个字符串“MyFunction”，那么可以去查找 AddressOfNameOrdinals 指向的数组的第n 项，假如第n 项中存放的值是x，则表示AddressOfFunctions 字段描述的地址表中的第x 项函数入口地址对应的名称就是“MyFunction”复杂吧? 没事，接着看你就懂了，别放弃哦~）</li>
+						</ul>
+						<p>整个流程跟其他PE 结构一样说起来复杂，但看图说话倒是挺容易的。所以小甲鱼还是本着实事求是的精神&……%￥#踏踏实实画图让大家好理解一点吧，来，请上图：</p>
+						<img src="images/ExportTable2.jpg" alt="导出表"/>
+						<ol>
+							<li>
+								<b style="color:green">从序号查找函数入口地址</b>
+								<p>下边小甲鱼带大家来模拟一下Windows 装载器查找导出函数入口地址的整个过程。如果已知函数的导出序号，如何得到函数的入口地址呢 ?</p>
+								<p style="font-size:18px;color:red">Windows 装载器的工作步骤如下：</p>
+								<ol>
+									<li>定位到PE 文件头</li>
+									<li>从PE 文件头中的 IMAGE_OPTIONAL_HEADER32 结构中取出数据目录表，并从第一个数据目录中得到导出表的RVA</li>
+									<li>从导出表的 Base 字段得到起始序号</li>
+									<li>将需要查找的导出序号减去起始序号，得到函数在入口地址表中的索引</li>
+									<li>检测索引值是否大于导出表的 NumberOfFunctions 字段的值，如果大于后者的话，说明输入的序号是无效的</li>
+									<li>用这个索引值在 AddressOfFunctions 字段指向的导出函数入口地址表中取出相应的项目，这就是函数入口地址的RVA 值，当函数被装入内存的时候，这个RVA 值加上模块实际装入的基地址，就得到了函数真正的入口地址</li>
+								</ol>
+								<li>
+									<b style="color:green">从函数名称查找入口地址</b>
+									<p>如果已知函数的名称，如何得到函数的入口地址呢？与使用序号来获取入口地址相比，这个过程要相对复杂一点！</p>
+									<p style="font-size:18px;color:red">Windows 装载器的工作步骤如下：</p>
+									<ol>
+										<li>最初的步骤是一样的，那就是首先得到导出表的地址</li>
+										<li>从导出表的 NumberOfNames 字段得到已命名函数的总数，并以这个数字作为循环的次数来构造一个循环</li>
+										<li>从 AddressOfNames 字段指向得到的函数名称地址表的第一项开始，在循环中将每一项定义的函数名与要查找的函数名相比较，如果没有任何一个函数名是符合的，表示文件中没有指定名称的函数</li>
+										<li>如果某一项定义的函数名与要查找的函数名符合，那么记下这个函数名在字符串地址表中的索引值，然后在 AddressOfNamesOrdinals 指向的数组中以同样的索引值取出数组项的值，我们这里假设这个值是x</li>
+										<li>最后，以 x 值作为索引值，在 AddressOfFunctions 字段指向的函数入口地址表中获取的 RVA 就是函数的入口地址</li>
+									</ol>
+									<p>一般情况下病毒程序就是通过函数名称查找入口地址的，因为病毒程序作为一段额外的代码被附加到可执行文件中的，如果病毒代码中用到某些 API 的话，这些 API 的地址不可能在宿主文件的导出表中为病毒代码准备好。因此只能通过在内存中动态查找的方法来实现获取API 的地址。关于病毒代码具体的实现分析，小甲鱼在今后将跟大家共同研究讨论这个话题~</p>
+								</li><br>
+								<b>输出表结构实例分析(具体过程将在视频中演示，这里不啰嗦啦~)</b>
+								<p>工具：PEinfo.exe, UltraEdit, W32DasmV10.0</p>
+								<p>解剖对象：Counter.dll</p>
+							</li>
+						</ol>
+					</div>			
+				</div>
+				<div class="con" id="c_num10">
+					<div class="c-top">
+						<input class="close" id="close" type="button" value="X" />
+					</div>
+					<div class="c_body" style="font-size:18px">
+						<p style="color: rgba(0, 128, 128, 1)">今天有一个朋友发短消息问我说“老师，为什么PE的格式要讲的这么这么细，这可不是一般的系哦”。其实之所以将PE结构放在解密系列继基础篇之后讲并且尽可能细致的讲，不是因为小甲鱼没事找事做，主要原因是因为PE结构非常重要，再说做这个课件的确是很费神的事哈。在这里再次强调一下，只要是windows操作程序，其就要遵循PE格式，再说人家看雪的网址就是www.pediy.com。</p>
+						<p style="color: rgba(0, 128, 128, 1)">简单的讲是可以，但是怕就怕有些朋友知识点遗漏了或者错误理解意思、不能深刻体会等，这样的效果是不好的~所以，小甲鱼尽管这系列视频可能出得比较慢，但质量一定保证大家都能够接受。建议：如果认为PE不重要，没关系，可以先学其他。小甲鱼的文章永远放在这里，等你需要的时候再回过头来看就行。</p><br>
+						<p>这一节对于讲来研究病毒原理的研究影响比较大，大家务必要深入理解~ <br>但是吧，咱的权威教材看雪的《加密与解密》在这一节的讲解上实在不给力，很多初学者看得云里雾里的。大家意见一致啵 ?! <br>为了让大家能够更容易的接受，小甲鱼决定通过自问 - 自答循环渐进的模式给大家讲解基址重定位的原理和应用</p>
+						<span style="color: rgba(0, 128, 0, 1)">
+							<b>问题一：什么是基址重定位?</b>
+							<p>答：重定位就是你本来这个程序理论上要占据这个地址，但是由于某种原因，这个地址现在不能让你霸占，你必须转移到别的地址，这就需要基址重定位。打个比方：例如你现在计划在某某地方建一栋楼，但是有一天你收到上边的通知，这个地方政府临时要征用建公厕，所以这时候你就没辙，得去别的地方建啦~</p>
+							<b>问题二：为什么需要基址重定位?</b>
+							<p>答：其实这个问题看起来跟前边的有点重复不是? 但是有些朋友可能会这么说，小甲鱼老湿你的言论是可以，但是放在程序中，小甲鱼你上节课不是还说每个程序都让Windows 欺骗了吗 —— 每个程序觉得自己都完全占有 4GB的内存空间，何来地址被别的程序占据了呢?! <br>首先，能够提出问题的朋友都是值得表扬和鼓励的<br>但是，上节课我们谈了什么内容呢 ? 谈了导出表，为什么会出现导出表呢 ? 正是因为有DLL 这类破坏别人家庭幸福的“小三”的存在~ <br>我们之前谈过，动态链接库它自己是没有占据任何似有空间的，都是寄生在应用程序的私有空间里边。那寄生在别人家里，睡在哪里就肯定不是小三说了算啦，肯定要由主人决定不是? 所以，在小三的眼里，不用说，肯定永远都睡在大房，但客观事实告诉我们，经常只能住卧室~（有点扯远了，其实小甲鱼想说的是，基址重定位就是这么被需求的^_^）</p>
+							<b>问题三：我们需要对程序中的哪些语句（指令）进行基址重定位呢？</b>
+							<p>答：请先看下图</p>
+							<img src="images//BaseRelocation.jpg" alt="基地重定位"/></br>
+							这是上节课我们用到的动态链接库 Counter.dll 文件，对其用W32Dasm 进行反汇编的截图。我们分析下，有哪些语句是需要我们来进行基址重定位的呢 ?（温馨提示：以下内容涉及一些汇编基础和windows基础，不懂的朋友可以参照视频教程。因为一般说话比打字容易，信息量也比较大~）<br><br>
+							答案是——但凡涉及到直接寻址的指令都需要进行重定位处理！(那什么是直接寻址? 咱在零基础入门学习汇编里边讲得很清楚啦，只要在机器码中看到有地址的，那就叫直接寻址……那有没有间接的? 肯定哈，间接的就是地址被间接的保存起来，例如存放在寄存器eax, 然后通过访问寄存器来获取地址，那就叫间接~)<br><br>
+							那么我们再过头来看下图片，一眼就能扫出以下指令需要对其进行重定位：
+						</span>
+						<pre style="color:rgba(128,128,128,1)">
+:10001026 FF0500300010            inc dword ptr [10003000]
+:1000102C FF3500300010            push dword ptr [10003000]
+:1000103D A100300010              mov eax, dword ptr [10003000]
+:10001049 FF0D00300010            dec dword ptr [10003000]
+:1000104F FF3500300010            push dword ptr [10003000]
+:10001060 A100300010              mov eax, dword ptr [10003000]
+:1000106A FF2500200010            Jmp dword ptr [10002000]
+						</pre>
+						<span style="color: rgba(0, 128, 0, 1)">那有些朋友可能会问了，类似于“<span style="color:rgba(128,128,128,1)">:10001038 E8CFFFFFFF        call 1000100C</span>”的指令，为什么后边显示的是call + 地址，而机器码却不包含地址信息呢? CPU神了? 莫非地址信息被加密了? 其实不是的，学过汇编的朋友不知道还记不记得，小甲鱼在讲call 原理的时候用了大部分时间在谈几种跳转，其中经常遇到的就是“地址+偏移”的形式。那这就能有个说得通的解释了：CFFFFFFFh 事实上就是一个偏移地址，记得咱这是little-edition，转换过来就是FFFF FFCFh，也就是等于-31h。那么1000103Dh - 31h == 1000100Ch，Perfect! ^_^<br>
+							<b>问题四：系统对一条指令进行重定位需要哪些信息?</b>
+							<p>答：我们还是拿上边那张图片来说事儿，我们说了上边的那些指令需要重定位，现在就假设重定位后的基地址由原来的10000000h 变为 20000000h了，那么类似这样的语句：<span style="color:rgba(128,128,128,1)">inc dword ptr [10003000] </span>应该改成 <span style="color:rgba(128,128,128,1)">inc dword ptr [20003000] </span>。</p>
+							<p>注意，重定位的算法我们可以总结为：将直接寻址指令中的双字地址加上模块的实际装入地址与模块建议装入地址之差。</p><br>
+							<ul  style="color: rgba(0, 0, 0, 1);font-weight:bold">从上边的信息中我们看到，需要进行重定位需要三个因素：
+								<li>1.需要修正的地址（10003000h）</li>
+								<li>2.建议装入的地址（10003000h）</li>
+								<li>3.实际装入的地址（20003000h）</li>
+							</ul><br>
+							<b>问题五：这些信息哪些应该被保存在重定位表中?</b><br>
+							<span>聪明的我们可以发现：
+								<p>1. 建议装入的地址在PE 文件头中已经定义了</p>
+								<p>2. 实际装入的地址在没有被装载器装入我们根本无从得知，也就是说这事天不知地不知我们不知只有装载器知道……</p>
+							</span><br>
+							因此，我们可以得到的结论是：PE 文件的重定位表（Base Relocation Table）中保存的就是文件中所有需要进行重定位修正的代码的地址。
+						</span><br>
+						<b style="font-size:18px">基址重定位结构表</b><br>
+						<span style="text-indent:0;color:blue;font-size:18px">IMAGE_BASE_RELOCATION STRUC
+							<table border="0" class="tb">
+								<tbody>
+									<tr>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">VirtualAddress</td>
+										<td class="td_d">重定位数据开始的RVA 地址</td>
+									</tr>
+									<tr>
+										<td class="td_b">DWORD</td>
+										<td class="td_c">SizeOfBlock</td>
+										<td class="td_d">重定位块得长度 地址</td>
+									</tr>
+									<tr>
+										<td class="td_b">WORD</td>
+										<td class="td_c">TypeOffset</td>
+										<td class="td_d">重定项位数组 地址</td>
+									</tr>
+								</tbody>
+							</table>IMAGE_BASE_RELOCATION  ENDS
+						</span>
+						<ul style="font-size:14px">
+							<li>VirtualAddress 是 Base Relocation Table 的位置它是一个 RVA 值；</li>
+							<li>SizeOfBlock 是 Base Relocation Table 的大小；</li>
+							<li>TypeOffset 是一个数组，数组每项大小为两个字节（16位），它由高 4位和低 12位组成，高 4位代表重定位类型，低 12位是重定位地址，它与 VirtualAddress 相加即是指向PE 映像中需要修改的那个代码的地址。</li>
+						</ul>
+						<span style="text-indent:0;color:blue;font-size:13px">
+							<table border="0" class="tb">
+								<tbody>
+									<tr>
+										<td class="td_c">IMAGE_REL_BASED_ABSOLUTE</td>
+										<td class="td_d">(0) 使块按照32位对齐，位置为0。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_REL_BASED_HIGH</td>
+										<td class="td_d">(1) 高16位必须应用于偏移量所指高字16位。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_REL_BASED_LOW</td>
+										<td class="td_d">(2) 低16位必须应用于偏移量所指低字16位。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_REL_BASED_HIGHLOW</td>
+										<td class="td_d">(3) 全部32位应用于所有32位。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_REL_BASED_HIGHADJ</td>
+										<td class="td_d">(4) 需要32位，高16位位于偏移量，低16位位于下一个偏移量数组元素，组合为一个带符号数，加上32位的一个数，然后加上8000然后把高16位保存在偏移量的16位域内。</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_REL_BASED_MIPS_JMPADDR</td>
+										<td class="td_d">(5)  Unknown</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_REL_BASED_SECTION</td>
+										<td class="td_d">(6)  Unknown</td>
+									</tr>
+									<tr>
+										<td class="td_c">IMAGE_REL_BASED_REL32</td>
+										<td class="td_d">(7)  Unknown</td>
+									</tr>
+								</tbody>
+							</table>
+						</span>
+						<b>输出表结构实例分析(具体过程将在视频中演示，这里不啰嗦啦~)</b>
+								<p>工具：PEinfo.exe, UltraEdit, W32DasmV10.0</p>
+								<p>解剖对象：Counter.dll</p>
+					</div>
+				</div>
+				<div class="con" id="c_num11">
+					<div class="c-top">
+						<input class="close" id="close" type="button" value="X" />
+					</div>
+					<div class="c_body" style="font-size:18px">
+						<span>最近一直在安排第一届鱼C 学习班的事情，忙活了好一阵子，真是对不住大家，还大家久等了，这里要跟大家说声不好意思 ^_^<br>
+						今天我们来谈谈资源部分，资源部分可以说是 PE 文件所有结构中，最复杂的一部分，也最让人揪心。很多朋友都想通过自己动手修改一些游戏的资源、工具的界面、或者一些软件的图标等，都知道要改资源部分。但纯粹一进去就像走进了迷宫……出不来……<br>
+							<b>虽然说是迷雾重重，但是本节的学习确意义非凡，例如我们可以对游戏进行汉化！怎么样？刺激吧？给力吧？我们可以自己汉化我们喜欢的**游戏哦！</b>
+						</span><hr>
+						<span>
+							<p>我们知道，Windows 将程序的各种界面定义为资源，包括加速键（Accelerator）、位图（Bitmap）、光标（Cursor）、对话框（Dialog Box）、图标（Icon）、菜单（Menu）、串表（StringTable）、工具栏（Toolbar）和版本信息（Version Information）等。</p>
+							<p>为了吸引大家的兴趣和目光，咱先来做个学前试验，然后再憧憬一下我们将来学习的内容有啥意义！好，小甲鱼先来演示一下如何用工具来修改资源实现汉化、改图标等，接着我们进一步从原理上来解剖 PE文件如何对资源进行存放和索引。最后，在PE系列章节讲解完毕后，小甲鱼和大家将所有学到的知识结合在一起，我们自己打造属于我们的个性 PE工具。</p>
+							<p>试验对象：360zip（实在找不到几个鸟文软件，我们就随便改改，不做汉化了，做“英化”^_^）</p>
+							<p>所需工具：Resource Hacker，eXeScope（附件提供下载）</p>
+							<p>小小演示：请看视频哈 @_@</p><br>
+							<b style="color:red;font-size:22px">资源结构</b>
+							<p>资源是PE 文件中非常重要的部分，几乎所有的PE文件中都包含着资源，与导入表和导出表相比，资源的组织方式要复杂很多，其实我们只要看下图就知道俺所言不虚。</p>
+						<img src="images/RESOURCE1.jpg" alt="资源表"/>
+							<p>我们知道我们的资源有很多种类型，每种类型的资源中可能存在多个资源项，这些资源项用不同的ID 或者名称来区分。但是要将这么多种类型的不同ID的资源有序地组织起来是一件非常痛苦的事情，因此，我们采取类似于磁盘目录结构的方式保存。</p><br>
+							<p>从图中我们可以看到，PE 文件中的资源是按照 资源类型 -> 资源ID -> 资源代码页的3层树型目录结构来组织资源的，通过层层索引才能够进入相应的子目录找到正确的资源。</p><br>
+							<b style="color:blue;font-size:16px">资源目录结构</b><br>
+							<p>数据目录表中的 IMAGE_DIRECTORY_ENTRY_RESOURCE 条目（第三项）包含资源的 RVA和大小。资源目录结构中的每一个节点都是由 IMAGE_RESOURCE_DIRECTORY</p>
+							<p>结构和紧跟其后的数个IMAGE_RESOURCE_DIRECTORY_ENTRY结构组成的。（是不是有点像我们之前提到的文件目录？文件夹每个都长得一样，一个嵌套另一个，这样子可以实现将非常复杂的数据细化切分，小泽玛利亚、苍井空、吉泽明步、松岛枫……）</p>
+							<p>我们再来看这张图：</p>
+						<img src="images/RESOURCE2.gif" alt="资源表"/>
+							<p>认识了这层关系后，我们来看下 IMAGE_RESOURCE_DIRECTORY这个结构，该结构长度为 16 字节，共有 6 个字段，定义如下：</p>
+							<table border="0" class="tb" style="color:blue">
+									<tbody>
+										<tr><td colspan="3">IMAGE_RESOURCE_DIRECTORY STRUCT</td></tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">Characteristics</td>
+											<td class="td_d">理论上为资源的属性，不过事实上总是0</td>
+										</tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">TimeDateStamp</td>
+											<td class="td_d">资源的产生时刻</td>
+										</tr>
+										<tr>
+											<td class="td_b">WORD</td>
+											<td class="td_c">MajorVersion</td>
+											<td class="td_d">理论上为资源的属性，不过事实上总是0</td>
+										</tr>
+										<tr>
+											<td class="td_b">WORD</td>
+											<td class="td_c">MinorVersion</td>
+											<td class="td_d">理论上为资源的属性，不过事实上总是0</td>
+										</tr>
+										<tr>
+											<td class="td_b">WORD</td>
+											<td class="td_c">NumberOfNamedEntries</td>
+											<td class="td_d">以名称（字符串）命名的入口数量</td>
+										</tr>
+										<tr>
+											<td class="td_b">WORD</td>
+											<td class="td_c">NumberOfIdEntries</td>
+											<td class="td_d">以ID（整型数字）命名的入口数量</td>
+										</tr>
+										<tr><td colspan="3">IMAGE_RESOURCE_DIRECTORY_ENTRY ENDS</td></tr>
+									</tbody>
+								</table>
+								<p>其实在这里边我们唯一要注意的就是 NameberOfNamedEntries 和NumberOfIdEntries，它们说明了本目录中目录项的数量。两者加起来就是本目录中的目录项总和。也就是后边跟着的IMAGE_RESOURCE_DIRECTORY_ENTRY数目。</p>
+								<b style="color:red;font-size:16px">资源目录入口的结构（IMAGE_RESOURCE_DIRECTORY_ENTRY）</b>
+								<p>IMAGE_RESOURCE_DIRECTORY_ENTRY紧跟在资源目录结构后，此结构长度为 8 个字节，包含 2 个字段。该结构定义如下：</p>
+							<table border="0" class="tb" style="color:blue">
+									<tbody>
+										<tr><td colspan="3">IMAGE_RESOURCE_DIRECTORY_ENTRY STRUCT</td></tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">Name</td>
+											<td class="td_d">目录项的名称字符串指针或ID</td>
+										</tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">OffsetToData</td>
+											<td class="td_d">目录项指针</td>
+										</tr>
+										<tr><td colspan="3">IMAGE_RESOURCE_DIRECTORY_ENTRY ENDS</td></tr>
+									</tbody>
+								</table>
+								<p><b>Name:</b>字段完全是个百变精灵，改字段定义的是目录项的名称或ID。当结构用于第一层目录时，定义的是资源类型；当结构定义于第二层目录时，定义的是资源的名称；当结构用于第三层目录时，定义的是代码页编号。<br>注意：当最高位为 0  的时候，表示字段的值作为 ID 使用；而最高位为 1 的时候，字段的低位作为指针使用（资源名称字符串是使用UNICODE编码），但是这个指针不是直接指向字符串哦，而是指向一个 IMAGE_RESOURCE_DIR_STRING_U 结构的。该结构定义如下：</p>
+							<table border="0" class="tb" style="color:blue;font-size:12px;margin:0 0 0 48px">
+									<tbody>
+										<tr><td colspan="3">IMAGE_RESOURCE_DIR_STRING_U STRUCT</td></tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">Length</td>
+											<td class="td_d">字符串的长度</td>
+										</tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">NameString</td>
+											<td class="td_d">UNICODE字符串，由于字符串是不定长的。由Length 制定长度</td>
+										</tr>
+										<tr><td colspan="3">IMAGE_RESOURCE_DIR_STRING_U ENDS</td></tr>
+									</tbody>
+								</table>
+								<p><b>OffsetOfData:</b>字段是一个指针，当最高位为 1 时，低位数据指向下一层目录块的其实地址；当最高位为 0 时，指针指向 IMAGE_RESOURCE_DATA_ENTRY 结构。<br><b>注意：将 Name 和 OffsetToData 用做指针时需要注意，该指针是从资源区块开始的地方算起的偏移量（即根目录的起始位置的偏移量），不是我们习惯的 RVA 哦。</b><br>最后，在上图中我们看到，在第一层的时候，IMAGE_RESOURCE_DIRECTORY_ENTRY的Name字段作为资源类型使用。</p>
+								<p>具体类型匹配见下表：</p>
+								<img src="images/RESOURCE3.jpg" alt="资源表"/><br>
+								<b style="color:red;font-size:16px">资源数据入口</b>
+								<p>过三层 IAMGE_RESOURCE_DIRECTORY_ENTRY（一般是3层，偶尔更年期少一些。第一层资源类型，第二层资源名，第三层是资源的 Language），第三层目录结构中的 OffsetOfData指向 IMAGE_RESOURCE_DATA_ENTRY 结构。该结构描述了资源数据的位置和大小，定义如下：</p>
+							<table border="0" class="tb" style="color:blue;font-size:12px;margin:0 0 0 48px">
+									<tbody>
+										<tr><td colspan="3">IMAGE_RESOURCE_DATA_ENTRY STRUCT</td></tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">OffsetToData</td>
+											<td class="td_d">资源数据的RVA</td>
+										</tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">Size</td>
+											<td class="td_d">资源数据的长度</td>
+										</tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">CodePage</td>
+											<td class="td_d">代码页,一般为0</td>
+										</tr>
+										<tr>
+											<td class="td_b">DWORD</td>
+											<td class="td_c">Reserved</td>
+											<td class="td_d">保留字段</td>
+										</tr>
+										<tr><td colspan="3">IMAGE_RESOURCE_DATA_ENTRY ENDS</td></tr>
+									</tbody>
+								</table>
+								<p>千山万水，此处的 IMAGE_RESOURCE_DATA_ENTRY结构就是真正的资源数据了。结构中的OffsetOfData 指向资源数据的指针，其为 RVA 值。</p><br>
+								<b>资源结构实例分析（具体过程将在视频中演示，这里不再罗嗦^_^）</b><br>
+								<p>工具：PEinfo.exe, UltraEdit</p>
+							</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
